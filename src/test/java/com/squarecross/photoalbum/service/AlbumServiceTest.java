@@ -1,0 +1,36 @@
+package com.squarecross.photoalbum.service;
+
+import com.squarecross.photoalbum.domain.Album;
+import com.squarecross.photoalbum.repository.AlbumRepository;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.transaction.Transactional;
+
+import static org.junit.jupiter.api.Assertions.*;
+//@SpringBootTest
+//스프링 컨테이너 내에 있는 모든 빈을 DI로 가져와서 사용할 수 있도록 만듦.
+//@Autowired로 IoC내에 있는 빈들을 모두 사용 할 수 있다.
+//@Transactional
+//DB에 입출력시, 쿼리 실행 후 commit을 해야 실제로 변경됨.
+//하지만 이건 테스트니 commit하지 말자
+
+@SpringBootTest
+@Transactional
+class AlbumServiceTest {
+    @Autowired
+    AlbumRepository albumRepository;
+
+    @Autowired
+    AlbumService albumService;
+    @Test
+    void getAlbum() {
+        Album album = new Album();
+        album.setAlbumName("test");
+        Album savedAlbum = albumRepository.save(album);
+
+        Album resAlbum = albumService.getAlbum(savedAlbum.getAlbumId());
+        assertEquals("test", resAlbum.getAlbumName());
+    }
+}
