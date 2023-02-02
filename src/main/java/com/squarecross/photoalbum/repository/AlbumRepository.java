@@ -2,15 +2,19 @@ package com.squarecross.photoalbum.repository;
 
 import com.squarecross.photoalbum.domain.Album;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository //어노테이션을 추가해서 스프링 Bean으로 등록하여 IoC에서 관리
 public interface AlbumRepository extends JpaRepository<Album, Long> { //앨범 entity와 pk 데이터 타입
     //- findBy<Field>
     //    <Field> 내에 Entity내에 정의한 필드명을 입력. 대문자로 시작하는게 규칙.
-
-    //List<Album> fineByAlbumName(String name); //조회할거야
+    //@Query(value = "SELECT * FROM album WHERE album_name = ?0", nativeQuery = true)
+    //List<Album> fineByAlbumName(String name); //조회할거야, By가 경로 시작점
+    //List<Album> findByAlbum_Name(String name)
 
 
 
