@@ -18,12 +18,12 @@ public class PhotoService {
     @Autowired
     private PhotoRepository photoRepository;
 
-    public AlbumDto getPhoto(Long albumId) {
+    public int getPhoto(Long albumId) {
         Optional<Album> res = albumRepository.findById(albumId); //반환되지 않는 경우 Optional 리턴값을 가짐
         if (res.isPresent()) {
             AlbumDto albumDto = AlbumMapper.convertToDto(res.get());
             albumDto.setCount(photoRepository.countByAlbum_AlbumId(albumId));
-            return albumDto;
+            return albumDto.getCount();
         } else {
             throw new EntityNotFoundException(String.format("앨범 아이디 %d로 조회되지 않았습니다", albumId));
         }

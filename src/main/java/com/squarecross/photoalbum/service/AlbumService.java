@@ -16,13 +16,16 @@ import java.util.Optional;
 public class AlbumService {
     @Autowired  //어노테이션으로 등록된 빈을 컨테이너에서 가져와서 사용
     private AlbumRepository albumRepository;
-    @Autowired
-    private PhotoRepository photoRepository;
 
-    public Album getAlbum(Long albumId){
+    public AlbumDto getAlbum(Long albumId){
         Optional<Album> res = albumRepository.findById(albumId); //반환되지 않는 경우 Optional 리턴값을 가짐
         if (res.isPresent()){ //isPresent() 로 값이 존재하는지 확인(있으면 true), 있는경우 Album entity 반환
-            return res.get();
+            Album album = res.get();
+            AlbumDto albumDto=null;
+            albumDto.setAlbumName(album.getAlbumName());
+            albumDto.setAlbumId(album.getAlbumId());
+            albumDto.setCreatedAt(album.getCreatedAt());
+            return albumDto;
         } else {
             throw new EntityNotFoundException(String.format("앨범 아이디 %d로 조회되지 않았습니다", albumId));
         }

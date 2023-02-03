@@ -24,7 +24,7 @@ class PhotoServiceTest {
 
 
     @Test
-    void testPhotoCount() {
+    void getPhoto() {
         Album album = new Album();
         album.setAlbumName("테스트");
         Album savedAlbum = albumRepository.save(album);
@@ -39,8 +39,8 @@ class PhotoServiceTest {
         photo1.setAlbum(savedAlbum);
         photoRepository.save(photo2);
 
-        int photoCount = photoRepository.countByAlbum_AlbumId(savedAlbum.getAlbumId());
-        assertEquals(1, photoCount);
+        int photoCount = photoService.getPhoto(savedAlbum.getAlbumId());
+        assertEquals(2, photoCount);
     }
 
 }
