@@ -13,7 +13,7 @@ public interface AlbumRepository extends JpaRepository<Album, Long> { //앨범 e
     //- findBy<Field>
     //    <Field> 내에 Entity내에 정의한 필드명을 입력. 대문자로 시작하는게 규칙.
     //@Query(value = "SELECT * FROM album WHERE album_name = ?0", nativeQuery = true)
-    //List<Album> fineByAlbumName(String name); //조회할거야, By가 경로 시작점
+    List<Album> fineByAlbumName(String name); //조회할거야, By가 경로 시작점
     //List<Album> findByAlbum_Name(String name)
 
 
