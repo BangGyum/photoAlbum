@@ -23,11 +23,19 @@ public class AlbumController {
 //        return new ResponseEntity<>(albumDto, HttpStatus.OK);
 //    }
     @RequestMapping("/all")
-    List<Album> all(@RequestParam(required=false) String name){
+    List<Album> all(@RequestParam(required=false) String name){ //required=false 는 파라미터가 필수가 아니란 것
         return albumRepository.findAll();
     }
-    @RequestMapping("/name/{albumName}")
-    List<Album> findAlbumName(@PathVariable("albumName") final String name){
-        return albumRepository.fineByAlbumName(name);
+//    @RequestMapping("/name/{albumName}")
+//    List<Album> findAlbumName(@PathVariable("albumName") final String name){
+//        return albumRepository.fineByAlbumName(name);
+//    }
+    @RequestMapping("/id/{albumId}")
+    Album findAlbumId(@PathVariable("albumId") final Long albumId){
+        return albumService.getAlbum(albumId);
     }
+//    @RequestMapping(value="", method = RequestMethod.POST)
+//    public ResponseEntity<AlbumDto> createAlbum(@RequestBody final AlbumDto albumDto) {
+//
+//    }
 }
