@@ -3,6 +3,7 @@ package com.squarecross.photoalbum.service;
 import com.squarecross.photoalbum.domain.Album;
 import com.squarecross.photoalbum.domain.Photo;
 import com.squarecross.photoalbum.dto.AlbumDto;
+import com.squarecross.photoalbum.mapper.AlbumMapper;
 import com.squarecross.photoalbum.repository.AlbumRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.TransactionScoped;
 import javax.transaction.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,6 +31,9 @@ class AlbumServiceTest {
     @Autowired
     AlbumService albumService;
 
+
+    AlbumMapper albumMapper;
+
     @Test
     void getAlbum() {
         Album album = new Album();
@@ -39,7 +44,19 @@ class AlbumServiceTest {
         assertEquals("테스트", getAlbum.getAlbumName());
     }
 
-        //Album resAlbum = albumService.getAlbum(savedAlbum.getAlbumId());
+    @Test
+    void createAlbum() throws IOException {
+        Album album = new Album();
+        album.setAlbumName("생성후삭제");
+        Album savedAlbum = albumRepository.save(album);
+        AlbumDto saveAlbumDto = albumMapper.convertToDto(savedAlbum);
+        AlbumDto getAlbum = albumService.createAlbum(saveAlbumDto);
+        albumService.deleteAlbumDirectories(savedAlbum);
+
+
+    }
+
+    //Album resAlbum = albumService.getAlbum(savedAlbum.getAlbumId());
         //assertEquals("test", resAlbum.getAlbumName());
 
 //        List<Album> resAlbums = albumService.getAlbum(savedAlbum.getAlbumName());
