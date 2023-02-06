@@ -15,6 +15,8 @@ public interface AlbumRepository extends JpaRepository<Album, Long> { //앨범 e
     //@Query(value = "SELECT * FROM album WHERE album_name = ?0", nativeQuery = true)
     //List<Album> fineByAlbumName(String name); //조회할거야, By가 경로 시작점
     //List<Album> findByAlbum_Name(String name)
+    List<Album> findByAlbumNameContainingOrderByAlbumNameAsc(String name);
+    List<Album> findByAlbumNameContainingOrderByCreatedAtDesc(String createAt);
 
 
 

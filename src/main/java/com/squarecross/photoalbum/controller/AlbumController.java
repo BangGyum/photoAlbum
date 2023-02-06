@@ -36,13 +36,23 @@ public class AlbumController {
         return albumService.getAlbum(albumId);
     }
 
+    @RequestMapping(value = "/a" , method = RequestMethod.GET)
+    public ResponseEntity<List<AlbumDto>> getAlbumList( //Json 안에 Array들
+        @RequestParam(value="keyword", required = false, defaultValue = "") final String keyword, //required=false 는 필수 값이 아니라는 의미.
+        @RequestParam(value="sort", required = false, defaultValue = "") final String sort){
+        System.out.println(keyword);
+        List<AlbumDto> albumDtos1 = albumService.getAlbumList(keyword,sort);
+        return new ResponseEntity<>(albumDtos1, HttpStatus.OK);
+    }
+
+
     @RequestMapping(value = "", method = RequestMethod.POST)
-    ResponseEntity<AlbumDto> createAlbum(@RequestBody final AlbumDto albumDto) throws IOException {
+    public ResponseEntity<AlbumDto> createAlbum(@RequestBody final AlbumDto albumDto) throws IOException {
         AlbumDto savedAlbumDto = albumService.createAlbum(albumDto);
         return new ResponseEntity<>(savedAlbumDto, HttpStatus.OK);
     }
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    ResponseEntity<AlbumDto> deleteAlbum(@RequestBody final AlbumDto albumDto) throws IOException {
+    public ResponseEntity<AlbumDto> deleteAlbum(@RequestBody final AlbumDto albumDto) throws IOException {
         AlbumDto savedAlbumDto = albumService.createAlbum(albumDto);
         return new ResponseEntity<>(savedAlbumDto, HttpStatus.OK);
     }

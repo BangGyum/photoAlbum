@@ -2,6 +2,7 @@ package com.squarecross.photoalbum.service;
 
 import com.squarecross.photoalbum.Constants;
 import com.squarecross.photoalbum.domain.Album;
+import com.squarecross.photoalbum.domain.Photo;
 import com.squarecross.photoalbum.dto.AlbumDto;
 import com.squarecross.photoalbum.mapper.AlbumMapper;
 import com.squarecross.photoalbum.repository.PhotoRepository;
@@ -14,12 +15,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AlbumService {
     @Autowired  //어노테이션으로 등록된 빈을 컨테이너에서 가져와서 사용
     private AlbumRepository albumRepository;
+    private PhotoRepository photoRepository;
 
     public Album getAlbum(Long albumId){
         Optional<Album> res = albumRepository.findById(albumId); //반환되지 않는 경우 Optional 리턴값을 가짐
@@ -31,10 +35,10 @@ public class AlbumService {
         }
     }
     public AlbumDto createAlbum(AlbumDto albumDto) throws IOException {
-        Album album = AlbumMapper.convertToModel(albumDto);
-        this.albumRepository.save(album);
-        this.createAlbumDirectories(album);
-        return AlbumMapper.convertToDto(album);
+        Album album = AlbumMapper.convertToModel(albumDto);// 받은 dto를 변경
+        this.albumRepository.save(album); //데이터 저장
+        this.createAlbumDirectories(album); //메소드 실행
+        return AlbumMapper.convertToDto(album); //dto로 전송
     }
 
     private void createAlbumDirectories(Album album) throws IOException {
@@ -47,6 +51,30 @@ public class AlbumService {
         Files.delete(Paths.get(Constants.PATH_PREFIX + "/photos/original/" + album.getAlbumId()));
         Files.delete(Paths.get(Constants.PATH_PREFIX + "/photos/thumb/" + album.getAlbumId()));
     }
+    public List<AlbumDto> getAlbumList(String keyword, String sort) {
+        List<Album> album;
+        if(Objects.equals(sort,"byName")){
+            album = albumRepository.findByAlbumNameContainingOrderByAlbumNameAsc(keyword);
+        } else if (Objects.equals(sort,"byDate")) {
+            album = albumRepository.findByAlbumNameContainingOrderByCreatedAtDesc(keyword);
+            
+        } else {
+            throw new IllegalArgumentException("알 수 없는 정렬 기준");
+        }
+       // return AlbumMapper.convertToDtoList(album);
+        List<AlbumDto> albumDtos = AlbumMapper.convertToDtoList(album);
+
+        for(AlbumDto albumDto : albumDtos){
+            List<Photo> top4 = photoRepository.findTop4ByAlbumIdOrderByUploadedAt(albumDto.getAlbumId());
+            albumDto.setThumbUrls(
+                    top4.stream()
+                            .map(Photo::getThumbUrl)
+                            .map(c -> Constants.PATH_PREFIX + c)
+                            .collect(Collectors.toList()));
+        }
+        return albumDtos;
+    }
+
 //    public AlbumDto getAlbum(Long albumId) {
 //        Optional<Album> res = albumRepository.findById(albumId); //반환되지 않는 경우 Optional 리턴값을 가짐
 //        if (res.isPresent()) {

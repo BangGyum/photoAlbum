@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 //@SpringBootTest
@@ -27,11 +28,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class AlbumServiceTest {
     @Autowired
     AlbumRepository albumRepository;
-
     @Autowired
     AlbumService albumService;
-
-
     AlbumMapper albumMapper;
 
     @Test
@@ -52,8 +50,29 @@ class AlbumServiceTest {
         AlbumDto saveAlbumDto = albumMapper.convertToDto(savedAlbum);
         AlbumDto getAlbum = albumService.createAlbum(saveAlbumDto);
         albumService.deleteAlbumDirectories(savedAlbum);
+    }
+    @Test
+    void testAlbumRepository() throws InterruptedException { //service 만들기 전 테스트
+        Album album1 = new Album();
+        Album album2 = new Album();
+        album1.setAlbumName("test1");
+        album2.setAlbumName("test2");
 
+        albumRepository.save(album1);
+        TimeUnit.SECONDS.sleep(1); //시간차를 벌리기위해 두번째 앨범 생성 1초 딜레이
+        albumRepository.save(album2);
 
+        //최신순 정렬, 두번째로 생성한 앨범이 먼저 나와야합니다
+        List<Album> resDate = albumRepository.findByAlbumNameContainingOrderByCreatedAtDesc("test");
+        assertEquals("test2", resDate.get(0).getAlbumName()); // 0번째 Index가 두번째 앨범명 test1 인지 체크
+        assertEquals("test1", resDate.get(1).getAlbumName()); // 1번째 Index가 첫번째 앨범명 test2 인지 체크
+        assertEquals(2, resDate.size()); // test 이름을 가진 다른 앨범이 없다는 가정하에, 검색 키워드에 해당하는 앨범 필터링 체크
+
+        //앨범명 정렬, aaaa -> aaab 기준으로 나와야합니다
+        List<Album> resName = albumRepository.findByAlbumNameContainingOrderByAlbumNameAsc("test");
+        assertEquals("test1", resName.get(0).getAlbumName()); // 0번째 Index가 두번째 앨범명 test1 인지 체크
+        assertEquals("test2", resName.get(1).getAlbumName()); // 1번째 Index가 두번째 앨범명 test2 인지 체크
+        assertEquals(2, resName.size()); // aaa 이름을 가진 다른 앨범이 없다는 가정하에, 검색 키워드에 해당하는 앨범 필터링 체크
     }
 
     //Album resAlbum = albumService.getAlbum(savedAlbum.getAlbumId());
