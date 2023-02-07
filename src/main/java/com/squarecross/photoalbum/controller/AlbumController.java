@@ -18,10 +18,11 @@ public class AlbumController {
     AlbumService albumService;
     @Autowired
     AlbumRepository albumRepository;
-//    @RequestMapping(value = "/{albumId}", method = RequestMethod.GET)
-//    public ResponseEntity<AlbumDto> getAlbum(@PathVariable("albumId") final long albumId) {
-//        AlbumDto albumDto = albumService.getAlbum(albumId);
-//        return new ResponseEntity<>(albumDto, HttpStatus.OK);
+
+    //앨범명 변경
+//    @RequestMapping(value="/{albumId}", method=RequestMethod.PUT)
+//    ResponseEntity<AlbumDto> updateAlbum(@PathVariable("albumId")final long albumId, @RequestBody AlbumDto albumDto){
+//
 //    }
     @RequestMapping("/all")
     List<Album> all(@RequestParam(required=false) String name){ //required=false 는 파라미터가 필수가 아니란 것

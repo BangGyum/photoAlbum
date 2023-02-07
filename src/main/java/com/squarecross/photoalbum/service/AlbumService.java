@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +25,19 @@ public class AlbumService {
     @Autowired  //어노테이션으로 등록된 빈을 컨테이너에서 가져와서 사용
     private AlbumRepository albumRepository;
     private PhotoRepository photoRepository;
+
+    public AlbumDto changeName(Long AlbumId, AlbumDto albumDto){
+        Optional<Album> album = this.albumRepository.findById(AlbumId);
+        if (album.isEmpty()){
+            throw new NoSuchElementException(String.format("Album ID  '%d'가 존재하지 않습니다", AlbumId));
+        }
+        Album updateAlbum = album.get();
+        updateAlbum.setAlbumName(albumDto.getAlbumName());
+        Album savedAlbum = this.albumRepository.save(updateAlbum);
+        return AlbumMapper.convertToDto(savedAlbum);
+
+
+    }
 
     public Album getAlbum(Long albumId){
         Optional<Album> res = albumRepository.findById(albumId); //반환되지 않는 경우 Optional 리턴값을 가짐
@@ -65,7 +79,7 @@ public class AlbumService {
         List<AlbumDto> albumDtos = AlbumMapper.convertToDtoList(album);
 
         for(AlbumDto albumDto : albumDtos){
-            List<Photo> top4 = photoRepository.findTop4ByAlbumIdOrderByUploadedAt(albumDto.getAlbumId());
+            List<Photo> top4 = photoRepository.findTop4ByAlbum_AlbumIdOrderByUploadedAt(albumDto.getAlbumId());
             albumDto.setThumbUrls(
                     top4.stream()
                             .map(Photo::getThumbUrl)
