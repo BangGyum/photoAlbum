@@ -51,6 +51,23 @@ class AlbumServiceTest {
         AlbumDto getAlbum = albumService.createAlbum(saveAlbumDto);
         albumService.deleteAlbumDirectories(savedAlbum);
     }
+
+    @Test
+    void testChangeAlbumName() throws IOException{
+        AlbumDto albumDto = new AlbumDto();
+        albumDto.setAlbumName("변경 전");
+        AlbumDto res = albumService.createAlbum(albumDto);
+
+        Long albumId = res.getAlbumId(); // 앨범 아이디 추출
+        AlbumDto updateDto = new AlbumDto();
+        updateDto.setAlbumName("변경 후");
+        albumService.changeName(albumId,updateDto);
+
+        Album updated = albumService.getAlbum(albumId);
+
+        assertEquals("변경 후",updated.getAlbumName());
+    }
+
     @Test
     void testAlbumRepository() throws InterruptedException { //service 만들기 전 테스트
         Album album1 = new Album();

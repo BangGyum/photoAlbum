@@ -36,14 +36,16 @@ public class AlbumService {
         Album savedAlbum = this.albumRepository.save(updateAlbum);
         return AlbumMapper.convertToDto(savedAlbum);
 
-
     }
 
     public Album getAlbum(Long albumId){
         Optional<Album> res = albumRepository.findById(albumId); //반환되지 않는 경우 Optional 리턴값을 가짐
         if (res.isPresent()){ //isPresent() 로 값이 존재하는지 확인(있으면 true), 있는경우 Album entity 반환
             Album album = res.get();
-            return album;
+//            AlbumDto albumDto = new AlbumDto();
+//            albumDto = AlbumMapper.convertToDto(album);
+//            return albumDto;
+                return album;
         } else {
             throw new EntityNotFoundException(String.format("앨범 아이디 %d로 조회되지 않았습니다", albumId));
         }

@@ -20,10 +20,12 @@ public class AlbumController {
     AlbumRepository albumRepository;
 
     //앨범명 변경
-//    @RequestMapping(value="/{albumId}", method=RequestMethod.PUT)
-//    ResponseEntity<AlbumDto> updateAlbum(@PathVariable("albumId")final long albumId, @RequestBody AlbumDto albumDto){
-//
-//    }
+    @RequestMapping(value="/{albumId}", method=RequestMethod.PUT)
+    ResponseEntity<AlbumDto> updateAlbum(@PathVariable("albumId")final long albumId,
+                                         @RequestBody AlbumDto albumDto){
+        AlbumDto res = albumService.changeName(albumId, albumDto);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
     @RequestMapping("/all")
     List<Album> all(@RequestParam(required=false) String name){ //required=false 는 파라미터가 필수가 아니란 것
         return albumRepository.findAll();
