@@ -69,6 +69,20 @@ class AlbumServiceTest {
     }
 
     @Test
+    void testDeleteAlbumId() throws IOException{
+        Long id = new Long(999);
+        AlbumDto albumDto = new AlbumDto();
+        albumDto.setAlbumName("삭제 예정");
+        albumDto.setAlbumId(id);
+        AlbumDto res = albumService.createAlbum(albumDto);
+        //Album delete = albumRepository.findById(res.getAlbumId());
+
+        AlbumDto deleteDto = albumService.deleteAlbum(res.getAlbumId());
+
+        assertEquals("삭제 예정",deleteDto.getAlbumName());
+    }
+
+    @Test
     void testAlbumRepository() throws InterruptedException { //service 만들기 전 테스트
         Album album1 = new Album();
         Album album2 = new Album();

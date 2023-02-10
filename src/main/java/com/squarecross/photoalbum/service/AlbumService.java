@@ -26,6 +26,22 @@ public class AlbumService {
     private AlbumRepository albumRepository;
     private PhotoRepository photoRepository;
 
+    //앨범 삭제
+    public AlbumDto deleteAlbum(Long AlbumId){
+        Optional<Album> album = this.albumRepository.findById(AlbumId);
+        if (album.isEmpty()){
+            throw new NoSuchElementException(String.format("Album ID  '%d'가 존재하지 않습니다", AlbumId));
+        }
+        Album deleteAlbum = album.get();
+        try {
+            albumRepository.deleteById(AlbumId);
+        }catch(Exception e){
+            e.printStackTrace(); //오류 출력(방법은 여러가지)
+            throw e; //최상위 클래스가 아니라면 무조건 던져주자
+        }
+        return AlbumMapper.convertToDto(deleteAlbum);
+    }
+
     public AlbumDto changeName(Long AlbumId, AlbumDto albumDto){
         Optional<Album> album = this.albumRepository.findById(AlbumId);
         if (album.isEmpty()){

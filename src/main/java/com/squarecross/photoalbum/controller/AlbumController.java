@@ -19,6 +19,13 @@ public class AlbumController {
     @Autowired
     AlbumRepository albumRepository;
 
+    //앨범 삭제
+    @RequestMapping(value="/delete/{albumId}", method=RequestMethod.PUT)
+    ResponseEntity<Void> deleteAlbum(@PathVariable("albumId")final long albumId){
+        albumService.deleteAlbum(albumId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     //앨범명 변경
     @RequestMapping(value="/{albumId}", method=RequestMethod.PUT)
     ResponseEntity<AlbumDto> updateAlbum(@PathVariable("albumId")final long albumId,
