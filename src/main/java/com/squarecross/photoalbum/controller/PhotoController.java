@@ -1,5 +1,6 @@
 package com.squarecross.photoalbum.controller;
 
+import com.squarecross.photoalbum.FileUtils;
 import com.squarecross.photoalbum.dto.PhotoDto;
 import com.squarecross.photoalbum.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,18 @@ public class PhotoController {
                                                        @RequestParam("photos") MultipartFile[] files) throws IOException {
         List<PhotoDto> photos = new ArrayList<>();
         for (MultipartFile file : files){
+            try(InputStream inputStream = file.getInputStream()) { //
+                System.out.println("Content Type : " + file.getContentType());
+                if(!file.isEmpty()) {
+                    boolean isValid = FileUtils.validImgFile(inputStream);
+                    if(!isValid) {
+                        // exception 처리
+                        System.out.println("이미지만 업로드 가능");
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             PhotoDto photoDto = photoService.savePhoto(file,albumId);
             photos.add(photoDto);
         }
