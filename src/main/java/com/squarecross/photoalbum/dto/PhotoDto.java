@@ -10,7 +10,7 @@ public class PhotoDto {
     String fileName;
     String thumbUrl;
     String originalUrl;
-    String fileSize;
+    int fileSize;
     Date uploadedAt;
 
     public Long getPhotoId() {
@@ -45,11 +45,11 @@ public class PhotoDto {
         this.originalUrl = originalUrl;
     }
 
-    public String getFileSize() {
+    public int getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(String fileSize) {
+    public void setFileSize(int fileSize) {
         this.fileSize = fileSize;
     }
 
