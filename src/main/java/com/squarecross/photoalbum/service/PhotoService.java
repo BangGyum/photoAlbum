@@ -45,6 +45,15 @@ public class PhotoService {
             throw new EntityNotFoundException(String.format("앨범 아이디 %d로 조회되지 않았습니다", photoId));
         }
     }
+    //사진 다운로드
+    public File getImageFile(Long photoId){
+        Optional<Photo> res = photoRepository.findById(photoId);
+        if(res.isEmpty()){
+            throw new EntityNotFoundException(String.format("사진을 ID %d를 찾을 수 없습니다", photoId));
+        }
+        return new File(Constants.PATH_PREFIX + res.get().getOriginalUrl());
+    }
+
     public PhotoDto savePhoto(MultipartFile file, Long albumId) throws IOException {
         Optional<Album> res = albumRepository.findById(albumId);
         if(res.isEmpty()){
