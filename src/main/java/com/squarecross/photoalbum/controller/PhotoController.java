@@ -35,6 +35,42 @@ public class PhotoController {
                 //	copy(InputStream, OutputStream) =Copies bytes from an InputStream to an OutputStream.
                 outputStream.close();
             }else { //여러장일때 zip파일로
+                FileOutputStream fileOStream = null;
+                ZipOutputStream zipOut = null;
+                FileInputStream fileIStream = null;
+                try {
+
+                    fileOStream = new FileOutputStream("C:/Users/uj052/Downloads/images.zip");
+                    zipOut = new ZipOutputStream(fileOStream);
+
+                    for (Long photoId : photoIds ) {
+                        File file = photoService.getImageFile(photoId);
+                        fileIStream = new FileInputStream(file);
+                        ZipEntry zipEntry = new ZipEntry(file.getName());
+                        zipOut.putNextEntry(zipEntry);
+
+                        byte[] bytes = new byte[1024];
+                        int length;
+
+                        while((length = fileIStream.read(bytes)) >= 0) {
+                            zipOut.write(bytes, 0, length);
+                        }
+
+                        fileIStream.close();
+                        zipOut.closeEntry();
+                    }
+
+                    zipOut.close();
+                    fileOStream.close();
+
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                } finally {
+                    try { if(fileIStream != null)fileIStream.close(); } catch (IOException e1) {System.out.println(e1.getMessage());/*ignore*/}
+                    try { if(zipOut != null)zipOut.closeEntry();} catch (IOException e2) {System.out.println(e2.getMessage());/*ignore*/}
+                    try { if(zipOut != null)zipOut.close();} catch (IOException e3) {System.out.println(e3.getMessage());/*ignore*/}
+                    try { if(fileOStream != null)fileOStream.close(); } catch (IOException e4) {System.out.println(e4.getMessage());/*ignore*/}
+                }
             }
         }catch (FileNotFoundException e){
             throw new RuntimeException(e);
