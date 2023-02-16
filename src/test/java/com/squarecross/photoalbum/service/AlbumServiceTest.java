@@ -70,16 +70,14 @@ class AlbumServiceTest {
 
     @Test
     void testDeleteAlbumId() throws IOException{
-        Long id = new Long(999);
         AlbumDto albumDto = new AlbumDto();
         albumDto.setAlbumName("삭제 예정");
-        albumDto.setAlbumId(id);
         AlbumDto res = albumService.createAlbum(albumDto);
-        //Album delete = albumRepository.findById(res.getAlbumId());
-
+        System.out.print(res.getAlbumId());
+        Album select = albumService.getAlbum(res.getAlbumId());
         AlbumDto deleteDto = albumService.deleteAlbum(res.getAlbumId());
 
-        assertEquals("삭제 예정",deleteDto.getAlbumName());
+        assertEquals("삭제 예정",deleteDto.getAlbumName()); //맞으면 오류 없음
     }
 
     @Test

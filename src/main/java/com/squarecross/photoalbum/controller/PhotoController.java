@@ -24,6 +24,44 @@ public class PhotoController {
     @Autowired
     private PhotoService photoService;
 
+    //해당 앨범의 사진 목록 불러오기 api
+
+    //사진 옮기기 api
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public void movePhoto(@RequestParam("albumId") final Long albumId){
+
+    }
+
+    //사진 정보 api
+    @RequestMapping(value="/{photoId}",method = RequestMethod.GET)
+    public ResponseEntity<PhotoDto> getPhotoInfo(@PathVariable("photoId") final Long photoId){
+        PhotoDto photoDto = photoService.getPhoto(photoId);
+        return new ResponseEntity<>(photoDto, HttpStatus.OK);
+    }
+    //사진 업로드 api
+    @RequestMapping(value="", method = RequestMethod.POST)
+    public ResponseEntity<List<PhotoDto>> uploadPhotos(@PathVariable("albumId") final Long albumId,
+                                                       @RequestParam("photos") MultipartFile[] files) throws IOException {
+        List<PhotoDto> photos = new ArrayList<>();
+        for (MultipartFile file : files){
+            try(InputStream inputStream = file.getInputStream()) { //
+                System.out.println("Content Type : " + file.getContentType());
+                if(!file.isEmpty()) {
+                    boolean isValid = FileUtils.validImgFile(inputStream);
+                    if(!isValid) {
+                        // exception 처리
+                        System.out.println("이미지만 업로드 가능");
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            PhotoDto photoDto = photoService.savePhoto(file,albumId);
+            photos.add(photoDto);
+        }
+        return new ResponseEntity<>(photos,HttpStatus.OK);
+    }
+
     //사진 다운로드 api
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void downloadPhotos(@RequestParam("photoIds") Long[] photoIds, HttpServletResponse httpServletResponse){
@@ -77,35 +115,5 @@ public class PhotoController {
         }catch (IOException e){
             throw new RuntimeException(e);
         }
-    }
-
-    //사진 정보 api
-    @RequestMapping(value="/{photoId}",method = RequestMethod.GET)
-    public ResponseEntity<PhotoDto> getPhotoInfo(@PathVariable("photoId") final Long photoId){
-        PhotoDto photoDto = photoService.getPhoto(photoId);
-        return new ResponseEntity<>(photoDto, HttpStatus.OK);
-    }
-    //사진 업로드 api
-    @RequestMapping(value="", method = RequestMethod.POST)
-    public ResponseEntity<List<PhotoDto>> uploadPhotos(@PathVariable("albumId") final Long albumId,
-                                                       @RequestParam("photos") MultipartFile[] files) throws IOException {
-        List<PhotoDto> photos = new ArrayList<>();
-        for (MultipartFile file : files){
-            try(InputStream inputStream = file.getInputStream()) { //
-                System.out.println("Content Type : " + file.getContentType());
-                if(!file.isEmpty()) {
-                    boolean isValid = FileUtils.validImgFile(inputStream);
-                    if(!isValid) {
-                        // exception 처리
-                        System.out.println("이미지만 업로드 가능");
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            PhotoDto photoDto = photoService.savePhoto(file,albumId);
-            photos.add(photoDto);
-        }
-        return new ResponseEntity<>(photos,HttpStatus.OK);
     }
 }
