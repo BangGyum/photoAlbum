@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
@@ -34,6 +35,38 @@ public class PhotoService {
 
     private final String original_path = Constants.PATH_PREFIX+"/photos/original";
     private final String thumb_path = Constants.PATH_PREFIX+"/photos/thumb";
+
+    public void movePhoto(Long albumId,Long photoId) {
+        Optional<Photo> res = photoRepository.findById(photoId); //반환되지 않는 경우 Optional 리턴값을 가짐
+        if (res.isPresent()) {
+            Photo photo = res.get();
+            PhotoDto photoDto = photoMapper.convertToDto(photo);
+            //albumDto.setCount(photoRepository.countByAlbum_AlbumId(albumId));
+            try {
+                String a = "D:/photoalbumSpring/photoalbum"+photoDto.getOriginalUrl();
+                //Path filePath = Paths.get("photoalbumSpring/photoalbum"+photoDto.getOriginalUrl());
+                Path filePath = Paths.get(a);
+                System.out.println("bbbb"+a);
+                System.out.println("bbbb"+filePath.toAbsolutePath());
+                Path filePathToMove = Paths.get(original_path+"/"+albumId+"/"+photoDto.getFileName());
+                System.out.println("aaaa"+filePathToMove.toAbsolutePath());
+                Files.move(filePath, filePathToMove);
+                //밑은 썸네일
+                Path filePathThumb = Paths.get("D:/photoalbumSpring/photoalbum"+photoDto.getThumbUrl());
+                Path filePathToMoveThumb = Paths.get(thumb_path+"/"+albumId+"/"+photoId);
+                Files.move(filePathThumb, filePathToMoveThumb);
+
+                photo.setOriginalUrl(filePathToMove.toString());
+                photo.setThumbUrl(filePathToMoveThumb.toString());
+                this.photoRepository.save(photo);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //return photoDto;
+        } else {
+            throw new EntityNotFoundException(String.format("앨범 아이디 %d로 조회되지 않았습니다", photoId));
+        }
+    }
 
     public PhotoDto getPhoto(Long photoId) {
         Optional<Photo> res = photoRepository.findById(photoId); //반환되지 않는 경우 Optional 리턴값을 가짐

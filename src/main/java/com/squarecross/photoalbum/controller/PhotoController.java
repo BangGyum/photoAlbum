@@ -1,5 +1,6 @@
 package com.squarecross.photoalbum.controller;
 
+import com.squarecross.photoalbum.Constants;
 import com.squarecross.photoalbum.FileUtils;
 import com.squarecross.photoalbum.dto.PhotoDto;
 import com.squarecross.photoalbum.service.PhotoService;
@@ -13,6 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -27,9 +31,12 @@ public class PhotoController {
     //해당 앨범의 사진 목록 불러오기 api
 
     //사진 옮기기 api
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public void movePhoto(@RequestParam("albumId") final Long albumId){
-
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public void movePhoto(@RequestParam("albumId") final Long albumId,
+                          @RequestParam("photoIds") Long[] photoIds){
+        for(Long photoId : photoIds){
+            photoService.movePhoto(albumId, photoId);
+        }
     }
 
     //사진 정보 api
