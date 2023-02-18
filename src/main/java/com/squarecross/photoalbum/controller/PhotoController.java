@@ -6,6 +6,7 @@ import com.squarecross.photoalbum.dto.PhotoDto;
 import com.squarecross.photoalbum.service.PhotoService;
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.xmlbeans.impl.common.IOUtil;
+import org.bouncycastle.cert.ocsp.Req;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,19 @@ import java.util.zip.ZipOutputStream;
 public class PhotoController {
     @Autowired
     private PhotoService photoService;
+    //특정 사진 삭제 api
+    @RequestMapping(value = "delete/{photoId}", method = RequestMethod.PUT)
+    public void deletePhoto(@PathVariable("photoId") final Long photoId){
+
+    }
 
     //해당 앨범의 사진 목록 불러오기 api
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ResponseEntity<List<PhotoDto>> albumPhotos(@RequestParam("albumId")final Long albumId){
+        List<PhotoDto> photos = new ArrayList<>();
+        photos = photoService.getPhotosList(albumId);
+        return new ResponseEntity<>(photos,HttpStatus.OK);
+    }
 
     //사진 옮기기 api
     @RequestMapping(value = "", method = RequestMethod.GET)

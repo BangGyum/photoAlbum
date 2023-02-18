@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,28 +38,35 @@ public class PhotoService {
     private final String original_path = Constants.PATH_PREFIX+"/photos/original";
     private final String thumb_path = Constants.PATH_PREFIX+"/photos/thumb";
 
+    public List<PhotoDto> getPhotosList(Long albumId){
+        List<Photo> photos = photoRepository.findByAlbum_AlbumId(albumId);
+        List<PhotoDto> photoDtos = new ArrayList();
+        for(Photo photo : photos){
+            PhotoDto photoDto = PhotoMapper.convertToDto(photo);
+            photoDtos.add(photoDto);
+        }
+        return photoDtos;
+    }
+
     public void movePhoto(Long albumId,Long photoId) {
         Optional<Photo> res = photoRepository.findById(photoId); //반환되지 않는 경우 Optional 리턴값을 가짐
         if (res.isPresent()) {
             Photo photo = res.get();
             PhotoDto photoDto = photoMapper.convertToDto(photo);
-            //albumDto.setCount(photoRepository.countByAlbum_AlbumId(albumId));
             try {
                 String a = "D:/photoalbumSpring/photoalbum"+photoDto.getOriginalUrl();
-                //Path filePath = Paths.get("photoalbumSpring/photoalbum"+photoDto.getOriginalUrl());
                 Path filePath = Paths.get(a);
-                System.out.println("bbbb"+a);
-                System.out.println("bbbb"+filePath.toAbsolutePath());
+                //a는 bbbbD:/photoalbumSpring/photoalbum/photos/original/1/갤럭시s23 라임 (2).PNG
+                //filePath.toAbsolutePath() 는 bbbbD:\photoalbumSpring\photoalbum\photos\original\1\갤럭시s23 라임 (2).PNG
                 Path filePathToMove = Paths.get(original_path+"/"+albumId+"/"+photoDto.getFileName());
-                System.out.println("aaaa"+filePathToMove.toAbsolutePath());
                 Files.move(filePath, filePathToMove);
                 //밑은 썸네일
                 Path filePathThumb = Paths.get("D:/photoalbumSpring/photoalbum"+photoDto.getThumbUrl());
                 Path filePathToMoveThumb = Paths.get(thumb_path+"/"+albumId+"/"+photoId);
                 Files.move(filePathThumb, filePathToMoveThumb);
 
-                photo.setOriginalUrl(filePathToMove.toString());
-                photo.setThumbUrl(filePathToMoveThumb.toString());
+                photo.setOriginalUrl("/photos/original"+"/"+albumId+"/"+photoDto.getFileName());
+                photo.setThumbUrl("/photos/thumb"+"/"+albumId+"/"+photoId);
                 this.photoRepository.save(photo);
             } catch (IOException e) {
                 e.printStackTrace();
