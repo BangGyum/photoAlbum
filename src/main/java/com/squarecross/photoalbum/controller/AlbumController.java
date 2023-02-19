@@ -46,7 +46,8 @@ public class AlbumController {
         return albumService.getAlbum(albumId);
     }
 
-    @RequestMapping(value = "/a" , method = RequestMethod.GET)
+    //앨범 list 가져오기
+    @RequestMapping(value = "/albumList" , method = RequestMethod.GET)
     public ResponseEntity<List<AlbumDto>> getAlbumList( //Json 안에 Array들
         @RequestParam(value="keyword", required = false, defaultValue = "") final String keyword, //required=false 는 필수 값이 아니라는 의미.
         @RequestParam(value="sort", required = false, defaultValue = "") final String sort){
