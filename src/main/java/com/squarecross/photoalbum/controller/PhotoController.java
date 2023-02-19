@@ -28,11 +28,15 @@ import java.util.zip.ZipOutputStream;
 public class PhotoController {
     @Autowired
     private PhotoService photoService;
-    //특정 사진 삭제 api
-    @RequestMapping(value = "delete/{photoId}", method = RequestMethod.PUT)
-    public void deletePhoto(@PathVariable("photoId") final Long photoId){
-
+    // 한개 이상사진 삭제 api
+    @RequestMapping(value = "/delete", method = RequestMethod.PUT)
+    ResponseEntity<Void> deletePhoto(@RequestParam("photoIds") final Long[] photoIds){
+        for(Long photoId : photoIds){
+            photoService.deletePhoto(photoId);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 
     //해당 앨범의 사진 목록 불러오기 api
     @RequestMapping(value = "/list", method = RequestMethod.GET)

@@ -38,6 +38,29 @@ public class PhotoService {
     private final String original_path = Constants.PATH_PREFIX+"/photos/original";
     private final String thumb_path = Constants.PATH_PREFIX+"/photos/thumb";
 
+    public void deletePhoto(Long photoId){
+        Optional<Photo> res = photoRepository.findById(photoId);
+        if(res.isEmpty()){
+            throw new EntityNotFoundException(String.format("해당 사진Id : %d로 조회되지 않았습니다", photoId));
+        }
+        Photo photo = res.get();
+        try{
+            photoRepository.deleteById(photoId);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try {
+            Path filePath = Paths.get("D:/photoalbumSpring/photoalbum"+photo.getOriginalUrl());
+            Files.delete(filePath);
+            Path filePathThumb = Paths.get("D:/photoalbumSpring/photoalbum"+photo.getThumbUrl());
+            Files.delete(filePathThumb);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
     public List<PhotoDto> getPhotosList(Long albumId){
         List<Photo> photos = photoRepository.findByAlbum_AlbumId(albumId);
         List<PhotoDto> photoDtos = new ArrayList();
@@ -73,7 +96,7 @@ public class PhotoService {
             }
             //return photoDto;
         } else {
-            throw new EntityNotFoundException(String.format("앨범 아이디 %d로 조회되지 않았습니다", photoId));
+            throw new EntityNotFoundException(String.format("해당 사진Id : %d가 조회되지 않았습니다", photoId));
         }
     }
 
@@ -84,7 +107,7 @@ public class PhotoService {
             //albumDto.setCount(photoRepository.countByAlbum_AlbumId(albumId));
             return photoDto;
         } else {
-            throw new EntityNotFoundException(String.format("앨범 아이디 %d로 조회되지 않았습니다", photoId));
+            throw new EntityNotFoundException(String.format("해당 사진Id : %d로 조회되지 않았습니다", photoId));
         }
     }
     //사진 다운로드
