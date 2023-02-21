@@ -39,7 +39,7 @@ public class PhotoController {
 
 
     //해당 앨범의 사진 목록 불러오기 api
-    @GetMapping("api/photoList")
+
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResponseEntity<List<PhotoDto>> albumPhotos(@PathVariable("albumId")final Long albumId){
         List<PhotoDto> photos;

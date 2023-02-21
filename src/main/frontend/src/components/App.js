@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
 import AppRouter from "components/Router";
-import { authService } from "FirebaseInstance"
+import axios from 'axios';
+import { authService } from "FirebaseInstance";
 
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);//처음에 무조건 로그아웃으로 시작, 로드하는 시간때문에
   const [init, setInit] = useState(false); //초기화 안된 set
   const [userObj, setUserObj] = useState(null);
+  useEffect(async ()=>{
+        const movies = await axios.get("/albums/1/photos/list");
+        console.log(movies);
+      },[]);
   const [message, setMessage]=useState([]);
     useEffect(()=>{
-      fetch("localhost:8081/albums/albumList")
+      //fetch("localhost:8081/albums/albumList")
+      //fetch("/api/demo-web")api/photoList
       fetch("/api/demo-web")
           .then((response)=>{
             return response.json();
