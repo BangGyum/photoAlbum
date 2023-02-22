@@ -12,6 +12,19 @@ function App() {
         const movies = await axios.get("/albums/1/photos/list");
         console.log(movies);
       },[]);
+    useEffect(async ()=>{
+      try {
+        //응답 성공
+        const response = await axios.post("/albums",{
+          	//보내고자 하는 데이터
+            albumName: "리액트에서 앨범 추가"
+        });
+        console.log(response);
+      } catch (error) {
+        //응답 실패
+        console.error(error);
+      }
+    },[]);
   const [message, setMessage]=useState([]);
     useEffect(()=>{
       //fetch("localhost:8081/albums/albumList")
@@ -46,6 +59,36 @@ function App() {
   setInterval(()=> {
     //console.log(authService.currentUser); //이때 확인하면 로그인돼 있음
   }, 2000);
+  const [albumId,setAlbumId] = useState(1);
+  //이미지 여러장 보내기
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        e.persist();
+
+        let files = e.target.profile_files.files;
+        let formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append("photos", files[i]);
+        }
+
+        let dataSet = {
+          name: "1",
+        };
+
+        formData.append("data", JSON.stringify(dataSet));
+
+        const postSurvey = await axios({
+          method: "POST",
+          url: `/albums/${albumId}/photos`,
+          mode: "cors",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          data: formData,
+        });
+
+        console.log(postSurvey);
+      };
   return (
     <>
   {init ? <AppRouter isLoggedIns={isLoggedIn} userObj={userObj} /> : " Initailizing" }
@@ -53,6 +96,15 @@ function App() {
   <div>
       <a>{message}</a>
   </div>
+  <form onSubmit={(e) => onSubmit(e)}>
+    <input
+      type="file"
+      name="profile_files"
+      multiple="multiple"
+    />
+
+    <button type="submit">제출</button>
+  </form>
   </>
   );
 }
