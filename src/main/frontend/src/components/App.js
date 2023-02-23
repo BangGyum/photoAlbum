@@ -8,10 +8,24 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);//처음에 무조건 로그아웃으로 시작, 로드하는 시간때문에
   const [init, setInit] = useState(false); //초기화 안된 set
   const [userObj, setUserObj] = useState(null);
+  const [originalUrl, setOriginalUrl] = useState([]);
+  const [thumbUrl, setThumbUrl] = useState([]);
   useEffect(async ()=>{
-        const movies = await axios.get("/albums/1/photos/list");
-        console.log(movies);
-      },[]);
+    const movies = await axios.get("/albums/1/photos/list");
+    console.log(movies);
+
+    for(let i=0; i < movies.data.length; i++){
+        console.log(movies.data[i]);
+        setThumbUrl((thumbUrl) => {
+              return [...thumbUrl,movies.data[i].thumbUrl];
+            });
+
+        //setThumbUrl([...thumbUrl,movies.data[i].thumbUrl], () => console.log(this.thumbUrl));
+
+        }
+    //console.log(thumbUrl);
+
+  },[]);
     useEffect(async ()=>{
       try {
         //응답 성공
@@ -59,6 +73,7 @@ function App() {
   setInterval(()=> {
     //console.log(authService.currentUser); //이때 확인하면 로그인돼 있음
   }, 2000);
+
   const [albumId,setAlbumId] = useState(1);
   //이미지 여러장 보내기
     const onSubmit = async (e) => {
@@ -89,6 +104,7 @@ function App() {
 
         console.log(postSurvey);
       };
+    console.log(thumbUrl);
   return (
     <>
   {init ? <AppRouter isLoggedIns={isLoggedIn} userObj={userObj} /> : " Initailizing" }
@@ -105,6 +121,18 @@ function App() {
 
     <button type="submit">제출</button>
   </form>
+  {
+      thumbUrl.map(function(content){
+        return (
+        <div className='list'>
+        <a>{content}</a>
+          <img src={`D:/photoalbumSpring/photoalbum${content}`}/>
+          <hr/>
+        </div>
+        )
+      })
+    }
+
   </>
   );
 }
