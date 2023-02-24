@@ -105,10 +105,88 @@ function App() {
         console.log(postSurvey);
       };
     console.log(thumbUrl);
+
+
+  //이미지 전부 받기
+//  const [images, setImages] = useState([]);
+//  let userForm = new FormData();
+//
+//
+//    useEffect(() => {
+//      fetchImages();
+//    }, []);
+//
+//    const fetchImages = async () => {
+//      const response = await axios.request({
+//        url: "/albums/1/photos/getPhotos",
+//        method: "GET",
+//        responseType: "arraybuffer",
+//      });
+//      console.log("aa");
+//      console.log(response);
+//      console.log("aa");
+//
+//      const imageList = Object.values(response.data).map((imageData, index) => {
+//        const imageBlob = new Blob([imageData], { type: "image/png" });
+//        const imageUrl = URL.createObjectURL(imageBlob);
+//        console.log("aaa");
+//        console.log(imageBlob);
+//        return {
+//          id: index,
+//          url: imageUrl,
+//        };
+//      });
+//
+//      setImages(imageList);
+//    };
+//    console.log("bb");
+//    console.log(images);
+
+//이미지 전부받기 2
+  const [image, setImage] = useState([]);
+
+//  useEffect(() => {
+//    axios.get('/albums/1/photos/getPhotos', { responseType: 'arraybuffer' })
+//      .then(response => {
+//        const buffer = new ArrayBuffer(response.data.length);
+//        const view = new Uint8Array(buffer);
+//        console.log(response.data);
+//        for (let i = 0; i < response.data.length; i++) {
+//          view[i] = response.data.charCodeAt(i);
+//        }
+//        const blob = new Blob([buffer], { type: 'image/png' });
+//        const imgUrl = URL.createObjectURL(blob);
+//        setImages([imgUrl]);
+//      })
+//      .catch(error => {
+//        console.log(error);
+//      });
+//  }, []);
+//   useEffect(() => {
+//       axios.get('/albums/1/photos/getPhotos', { responseType: 'arraybuffer' })
+//         .then(response => {
+//           const imageBlobs = response.data.map(imgBytes => new Blob([imgBytes], { type: 'image/png' }));
+//           const imgUrls = imageBlobs.map(blob => URL.createObjectURL(blob));
+//           setImages(imgUrls);
+//         })
+//         .catch(error => {
+//           console.log(error);
+//         });
+//     }, []);
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    axios.get('/albums/1/photos/getPhotos')
+      .then(response => setImages(response.data) )
+      .catch(error => console.error(error));
+  }, []);
+  console.log(images);
+
+
   return (
     <>
   {init ? <AppRouter isLoggedIns={isLoggedIn} userObj={userObj} /> : " Initailizing" }
-  <footer>&copy; Bwitter {new Date().getFullYear()}</footer>
+  <footer>&copy; spring frontend {new Date().getFullYear()}</footer>
   <div>
       <a>{message}</a>
   </div>
@@ -121,17 +199,16 @@ function App() {
 
     <button type="submit">제출</button>
   </form>
-  {
-      thumbUrl.map(function(content){
-        return (
-        <div className='list'>
-        <a>{content}</a>
-          <img src={`D:/photoalbumSpring/photoalbum${content}`}/>
-          <hr/>
-        </div>
-        )
-      })
-    }
+    <div>
+       {images.map((image, index) => (
+         <img
+           key={index}
+           src={URL.createObjectURL(new Blob([image]))}
+           alt={`Image ${index}`}
+         />
+       ))}
+    </div>
+
 
   </>
   );

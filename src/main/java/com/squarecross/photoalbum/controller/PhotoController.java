@@ -8,7 +8,9 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.apache.xmlbeans.impl.common.IOUtil;
 import org.bouncycastle.cert.ocsp.Req;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +30,38 @@ import java.util.zip.ZipOutputStream;
 public class PhotoController {
     @Autowired
     private PhotoService photoService;
+//    @RequestMapping(value="/getPhotos",method=RequestMethod.GET)
+//    public ResponseEntity<List<byte[]>> getImages() throws IOException {
+//
+//        return photoService.getImages();
+//    }
+        @RequestMapping(value="/getPhotos",method=RequestMethod.GET)
+        public ResponseEntity<List<byte[]>> getImages() throws IOException {
+            List<byte[]> imageBytes = photoService.getImages();
+
+            return new ResponseEntity<>(imageBytes,HttpStatus.OK);
+        }
+//    }
+//    @RequestMapping(value="/getPhotos",method=RequestMethod.GET)
+//    public List<ResponseEntity<byte[]>> getImages() throws IOException {
+//        List<ResponseEntity<byte[]>> images = new ArrayList<>();
+//
+//        InputStream in1 = getClass().getResourceAsStream("/path/to/image1.jpg");
+//        byte[] imageBytes1 = IOUtils.toByteArray(in1);
+//        HttpHeaders headers1 = new HttpHeaders();
+//        headers1.setContentType(MediaType.IMAGE_PNG);
+//        images.add(new ResponseEntity<>(imageBytes1, headers1, HttpStatus.OK));
+//
+//        InputStream in2 = getClass().getResourceAsStream("/path/to/image2.jpg");
+//        byte[] imageBytes2 = IOUtils.toByteArray(in2);
+//        HttpHeaders headers2 = new HttpHeaders();
+//        headers2.setContentType(MediaType.IMAGE_PNG);
+//        images.add(new ResponseEntity<>(imageBytes2, headers2, HttpStatus.OK));
+//
+//        // 이미지 목록을 반환
+//        return images;
+//    }
+
     // 한개 이상사진 삭제 api
     @RequestMapping(value = "/delete", method = RequestMethod.PUT)
     ResponseEntity<Void> deletePhoto(@RequestParam("photoIds") final Long[] photoIds){

@@ -11,12 +11,17 @@ import com.squarecross.photoalbum.repository.AlbumRepository;
 import com.squarecross.photoalbum.repository.PhotoRepository;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.persistence.EntityNotFoundException;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +43,38 @@ public class PhotoService {
     private final String original_path = Constants.PATH_PREFIX+"/photos/original";
     private final String thumb_path = Constants.PATH_PREFIX+"/photos/thumb";
 
+    public List<byte[]> getImages() throws IOException {
+        List<byte[]> images = new ArrayList<>();
+
+        List<Photo> photoList = photoRepository.findAll();
+        for (Photo photo : photoList) {
+            Path imagePath = Paths.get("D:/photoalbumSpring/photoalbum"+photo.getThumbUrl());
+            byte[] imageBytes = Files.readAllBytes(imagePath);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_PNG);
+            images.add(imageBytes);
+        }
+
+        return images;
+    }
+
+    //이미지 리액트로 전송 service
+//    public List<ResponseEntity<byte[]>> getImages() throws IOException {
+//        List<ResponseEntity<byte[]>> images = new ArrayList<>();
+//
+//        List<Photo> photoList = photoRepository.findAll();
+//        for (Photo photo : photoList) {
+//            Path imagePath = Paths.get("D:/photoalbumSpring/photoalbum"+photo.getThumbUrl());
+//            byte[] imageBytes = Files.readAllBytes(imagePath);
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(MediaType.IMAGE_PNG);
+//            images.add(new ResponseEntity<>(imageBytes, headers, HttpStatus.OK));
+//        }
+//
+//        return images;
+//    }
+
+    //이미지 삭제 서비스
     public void deletePhoto(Long photoId){
         Optional<Photo> res = photoRepository.findById(photoId);
         if(res.isEmpty()){
