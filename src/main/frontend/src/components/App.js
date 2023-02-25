@@ -3,6 +3,13 @@ import AppRouter from "components/Router";
 import axios from 'axios';
 import { authService } from "FirebaseInstance";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);//처음에 무조건 로그아웃으로 시작, 로드하는 시간때문에
@@ -107,80 +114,6 @@ function App() {
     console.log(thumbUrl);
 
 
-  //이미지 전부 받기
-//  const [images, setImages] = useState([]);
-//  let userForm = new FormData();
-//
-//
-//    useEffect(() => {
-//      fetchImages();
-//    }, []);
-//
-//    const fetchImages = async () => {
-//      const response = await axios.request({
-//        url: "/albums/1/photos/getPhotos",
-//        method: "GET",
-//        responseType: "arraybuffer",
-//      });
-//      console.log("aa");
-//      console.log(response);
-//      console.log("aa");
-//
-//      const imageList = Object.values(response.data).map((imageData, index) => {
-//        const imageBlob = new Blob([imageData], { type: "image/png" });
-//        const imageUrl = URL.createObjectURL(imageBlob);
-//        console.log("aaa");
-//        console.log(imageBlob);
-//        return {
-//          id: index,
-//          url: imageUrl,
-//        };
-//      });
-//
-//      setImages(imageList);
-//    };
-//    console.log("bb");
-//    console.log(images);
-
-//이미지 전부받기 2
-  const [image, setImage] = useState([]);
-
-//  useEffect(() => {
-//    axios.get('/albums/1/photos/getPhotos', { responseType: 'arraybuffer' })
-//      .then(response => {
-//        const buffer = new ArrayBuffer(response.data.length);
-//        const view = new Uint8Array(buffer);
-//        console.log(response.data);
-//        for (let i = 0; i < response.data.length; i++) {
-//          view[i] = response.data.charCodeAt(i);
-//        }
-//        const blob = new Blob([buffer], { type: 'image/png' });
-//        const imgUrl = URL.createObjectURL(blob);
-//        setImages([imgUrl]);
-//      })
-//      .catch(error => {
-//        console.log(error);
-//      });
-//  }, []);
-//   useEffect(() => {
-//       axios.get('/albums/1/photos/getPhotos', { responseType: 'arraybuffer' })
-//         .then(response => {
-//           const imageBlobs = response.data.map(imgBytes => new Blob([imgBytes], { type: 'image/png' }));
-//           const imgUrls = imageBlobs.map(blob => URL.createObjectURL(blob));
-//           setImages(imgUrls);
-//         })
-//         .catch(error => {
-//           console.log(error);
-//         });
-//     }, []);
-  const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    axios.get('/albums/1/photos/getPhotos')
-      .then(response => setImages(response.data) )
-      .catch(error => console.error(error));
-  }, []);
-  console.log(images);
 
 
   return (
@@ -191,19 +124,17 @@ function App() {
       <a>{message}</a>
   </div>
   <form onSubmit={(e) => onSubmit(e)}>
+
+    <div className="App">
     <input
       type="file"
       name="profile_files"
       multiple="multiple"
     />
-
-    <button type="submit">제출</button>
-  </form>
-    <div>
-       {images.map((image, index) => (
-         <img src={`data:image/png;base64,${image}`} alt="Your image" />
-       ))}
+      <Button as="input" type="button" value="제출" type="submit" />{' '}
     </div>
+
+  </form>
 
 
   </>
