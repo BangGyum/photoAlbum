@@ -201,11 +201,7 @@ function App() {
   </form>
     <div>
        {images.map((image, index) => (
-         <img
-           key={index}
-           src={URL.createObjectURL(new Blob([image]))}
-           alt={`Image ${index}`}
-         />
+         <img src={`data:image/png;base64,${image}`} alt="Your image" />
        ))}
     </div>
 
