@@ -2,7 +2,7 @@ import React from "react";
 import {HashRouter as Router, Route, Routes} from "react-router-dom";
 import Auth from "Routes/Auth";
 import Home from "Routes/Home";
-import Profile from "Routes/Profile";
+import InAlbum from "Routes/InAlbum";
 import Navigation from "components/Navigation";
 
 const AppRouter = ({ isLoggedIns, userObj }) => {
@@ -16,7 +16,7 @@ const AppRouter = ({ isLoggedIns, userObj }) => {
             {isLoggedIns ? (
                 <>
                     <Route exact path="/"  element={<Home userObj={userObj}/>} />
-                    <Route exact path="/profile" element={<Profile/>} />
+                    <Route exact path="/inAlbum" element={<InAlbum/>} />
                 </>
                 ) : (
                     <>

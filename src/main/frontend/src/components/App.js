@@ -33,31 +33,6 @@ function App() {
     //console.log(thumbUrl);
 
   },[]);
-    useEffect(async ()=>{
-      try {
-        //응답 성공
-        const response = await axios.post("/albums",{
-          	//보내고자 하는 데이터
-            albumName: "리액트에서 앨범 추가"
-        });
-        console.log(response);
-      } catch (error) {
-        //응답 실패
-        console.error(error);
-      }
-    },[]);
-  const [message, setMessage]=useState([]);
-    useEffect(()=>{
-      //fetch("localhost:8081/albums/albumList")
-      //fetch("/api/demo-web")api/photoList
-      fetch("/api/demo-web")
-          .then((response)=>{
-            return response.json();
-          })
-          .then((data)=>{
-              setMessage(data);
-          });
-    },[]);
   useEffect(()=> { //component가 mount될 때 실행됨, 그리고 변화를 들어야함.
     authService.onAuthStateChanged((user) => {
       if(user){
@@ -120,9 +95,7 @@ function App() {
     <>
   {init ? <AppRouter isLoggedIns={isLoggedIn} userObj={userObj} /> : " Initailizing" }
   <footer>&copy; spring frontend {new Date().getFullYear()}</footer>
-  <div>
-      <a>{message}</a>
-  </div>
+
   <form onSubmit={(e) => onSubmit(e)}>
 
     <div className="App">
