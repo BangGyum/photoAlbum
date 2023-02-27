@@ -7,7 +7,7 @@ const InAlbum = () => {
     //앨범 목록 가져오기
   const [albumList, setAlbumList] = useState([]);
   useEffect(async ()=>{
-    const album = await axios.get("/albums/albumList");
+    const album = await axios.get("/albums/albumList?sort=byName");
     console.log(album);
 
     for(let i=0; i < album.data.length; i++){
@@ -15,11 +15,10 @@ const InAlbum = () => {
         setAlbumList((albumList) => {
               return [...albumList,album.data[i].AlbumName];
             });
-
         //setThumbUrl([...thumbUrl,movies.data[i].thumbUrl], () => console.log(this.thumbUrl));
 
         }
-    //console.log(thumbUrl);
+    console.log(albumList);
 
   },[]);
 
@@ -29,24 +28,18 @@ const InAlbum = () => {
 
         navigate(-1);  //뒤로
     }
-  const [images, setImages] = useState([]);
 
-  useEffect(() => {
-    axios.get('/albums/1/photos/getPhotos')
-      .then(response => setImages(response.data) )
-      .catch(error => console.error(error));
-  }, []);
-  console.log(images);
 
 return (
     <>
-        <button onClick={onClickLogOut}>Log out</button>
-
-       <div>
-          {images.map((image, index) => (
-            <img src={`data:image/png;base64,${image}`} alt="Your image" />
-          ))}
-       </div>
+    <button onClick={onClickLogOut}>Log out</button>
+   <div>
+      {albumList.map((image, index) => (
+        <p>
+        d
+        </p>
+      ))}
+   </div>
     </>
 );
 }

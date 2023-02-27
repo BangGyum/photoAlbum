@@ -95,15 +95,21 @@ public class AlbumService {
         }
        // return AlbumMapper.convertToDtoList(album);
         List<AlbumDto> albumDtos = AlbumMapper.convertToDtoList(album);
-
+        for(AlbumDto albumDto : albumDtos) {
+            System.out.println(albumDto.getAlbumId());
+        }
+/*
         for(AlbumDto albumDto : albumDtos){
-            List<Photo> top4 = photoRepository.findTop4ByAlbum_AlbumIdOrderByUploadedAt(albumDto.getAlbumId());
+            System.out.println(albumDto.getAlbumId());
+            List<Photo> top4 = photoRepository.findTop4ByAlbumId(albumDto.getAlbumId());
             albumDto.setThumbUrls(
                     top4.stream()
                             .map(Photo::getThumbUrl)
                             .map(c -> Constants.PATH_PREFIX + c)
                             .collect(Collectors.toList()));
         }
+        */
+
         return albumDtos;
     }
 

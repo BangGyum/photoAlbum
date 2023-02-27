@@ -16,7 +16,7 @@ const AppRouter = ({ isLoggedIns, userObj }) => {
             {isLoggedIns ? (
                 <>
                     <Route exact path="/"  element={<Home userObj={userObj}/>} />
-                    <Route exact path="/inAlbum" element={<InAlbum/>} />
+                    <Route exact path="/album" element={<InAlbum/>} />
                 </>
                 ) : (
                     <>
