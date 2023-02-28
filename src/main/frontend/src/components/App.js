@@ -5,10 +5,14 @@ import { authService } from "FirebaseInstance";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+//import Button from "react-bootstrap/Button";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import { ChakraProvider } from '@chakra-ui/react';
+import Button from "css/Button";
+import "css/style.css";
+
 
 
 function App() {
@@ -92,7 +96,9 @@ function App() {
 
 
   return (
-    <>
+
+  <>
+    <Button>Default Button</Button>;
   {init ? <AppRouter isLoggedIns={isLoggedIn} userObj={userObj} /> : " Initailizing" }
   <footer>&copy; spring frontend {new Date().getFullYear()}</footer>
 

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import { authService } from "FirebaseInstance"
+import { authService } from "FirebaseInstance";
 import { useNavigate  } from "react-router-dom";
+import { ChakraBaseProvider, extendBaseTheme } from '@chakra-ui/react';
+import chakraTheme from '@chakra-ui/theme';
 
-const InAlbum = () => {
+
+function InAlbum() {
     //앨범 목록 가져오기
   const [albumList, setAlbumList] = useState([]);
   useEffect(async ()=>{
@@ -33,6 +36,7 @@ const InAlbum = () => {
 return (
     <>
     <button onClick={onClickLogOut}>Log out</button>
+
    <div>
       {albumList.map((image, index) => (
         <p>

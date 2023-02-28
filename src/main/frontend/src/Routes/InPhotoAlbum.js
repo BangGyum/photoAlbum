@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { authService } from "FirebaseInstance"
 import { useNavigate  } from "react-router-dom";
+import "css/style.css";
 
-const InPhotoAlbum = () => {
+
+
+function InPhotoAlbum() {
 
     const navigate = useNavigate(); //양식이 제출 or 특정 event가 발생 시, url을 조작할 수 있는 interface
     const onClickLogOut = () => {
@@ -26,7 +29,7 @@ return (
 
        <div>
           {images.map((image, index) => (
-            <img src={`data:image/png;base64,${image}`} alt="Your image" />
+            <img className="imgStyle" src={`data:image/png;base64,${image}`} alt="yourImage" />
           ))}
        </div>
     </>
