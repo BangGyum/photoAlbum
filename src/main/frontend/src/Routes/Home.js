@@ -51,8 +51,8 @@ const Home = ({userObj}) => {
     return(
     <form onSubmit={onSubmit}>
 
-        <input value={bweet} onChange={onChange} type="text" placeholder="What's on your mind?" maxLength={120} />
-        <input type="submit" value="Bweet" />
+        <input value={bweet} onChange={onChange} type="text" placeholder="임시 메모 입력" maxLength={120} />
+        <input type="submit" value="메모" />
         <div>
             {bweets.map(bweet => <div>
                 <h4>{bweet.text}</h4>

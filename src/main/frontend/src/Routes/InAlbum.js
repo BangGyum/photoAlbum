@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { authService } from "FirebaseInstance";
-import { useNavigate  } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate, Link } from "react-router-dom";
 import { ChakraBaseProvider, extendBaseTheme } from '@chakra-ui/react';
 import chakraTheme from '@chakra-ui/theme';
+import InPhotoAlbum from "Routes/InPhotoAlbum";
 
 
 function InAlbum() {
     //앨범 목록 가져오기
-  const [albumList, setAlbumList] = useState([]);
+  const [albumListName, setAlbumListName] = useState([]);
+  const [albumListId, setAlbumListId] = useState([]);
   useEffect(async ()=>{
     const album = await axios.get("/albums/albumList?sort=byName");
     console.log(album);
 
     for(let i=0; i < album.data.length; i++){
         console.log(album.data[i]);
-        setAlbumList((albumList) => {
-              return [...albumList,album.data[i].AlbumName];
+        setAlbumListName((albumListName) => {
+              return [...albumListName, album.data[i].AlbumName];
             });
+        setAlbumListId((albumListId) => {
+                      return [...albumListId, album.data[i].albumId];
+                    });
         //setThumbUrl([...thumbUrl,movies.data[i].thumbUrl], () => console.log(this.thumbUrl));
 
         }
-    console.log(albumList);
+    console.log(albumListName);
 
   },[]);
 
@@ -35,16 +40,23 @@ function InAlbum() {
 
 return (
     <>
-    <button onClick={onClickLogOut}>Log out</button>
+        <button onClick={onClickLogOut}>Log out</button>
+        <ul>
+        {albumListId.map((albumId, index) => (
+            <li><Link to="/photoAlbum">InPhotoAlbum</Link></li>
+        ))}
+        </ul>
+        <Router>
+            <Routes>
+            {albumListId.map((albumId, index) => (
+                <Route exact path="/photoAlbum"  element={<InPhotoAlbum albumId={albumId}/>} />
+            ))}
 
-   <div>
-      {albumList.map((image, index) => (
-        <p>
-        d
-        </p>
-      ))}
-   </div>
+            </Routes>
+
+        <Router>
     </>
+
 );
 }
 export default InAlbum;

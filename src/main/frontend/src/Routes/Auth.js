@@ -64,29 +64,6 @@ const Auth = () => {
         const data = await signInWithPopup(authService, provider);
         console.log(data);
     }
-
-//<Container className="panel">
-//            <Form onSubmit={onSubmit}>
-//                <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
-//                    <Col sm>
-//                        <Form.Control type="password" placeholder="Email" value={email} onChange={onChange} required />
-//                    </Col>
-//                </Form.Group>
-//
-//                <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
-//                    <Col sm>
-//                        <Form.Control type="password" placeholder="Password" onChange={onChange} value={password} required />
-//                    </Col>
-//                </Form.Group>
-//                <br/>
-//
-//                <div className="d-grid gap-1">
-//                    <Button variant="secondary" type="submit" >
-//                        {newAccount ? "Create Account" : "Log In"}
-//                    </Button>
-//                </div>
-//            </Form>
-//        </Container>
 return (
 <>
 <div>

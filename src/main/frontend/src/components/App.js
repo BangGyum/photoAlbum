@@ -98,6 +98,11 @@ function App() {
   return (
 
   <>
+  <nav>
+    <div>
+        nav
+    </div>
+  </nav>
     <Button>Default Button</Button>;
   {init ? <AppRouter isLoggedIns={isLoggedIn} userObj={userObj} /> : " Initailizing" }
   <footer>&copy; spring frontend {new Date().getFullYear()}</footer>
