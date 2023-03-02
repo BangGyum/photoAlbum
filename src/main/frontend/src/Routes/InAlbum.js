@@ -46,15 +46,6 @@ return (
             <li><Link to="/photoAlbum">InPhotoAlbum</Link></li>
         ))}
         </ul>
-        <Router>
-            <Routes>
-            {albumListId.map((albumId, index) => (
-                <Route exact path="/photoAlbum"  element={<InPhotoAlbum albumId={albumId}/>} />
-            ))}
-
-            </Routes>
-
-        <Router>
     </>
 
 );
