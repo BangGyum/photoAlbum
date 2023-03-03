@@ -16,6 +16,7 @@ import "css/style.css";
 
 
 function App() {
+  const albumIdConst=1
   const [isLoggedIn, setIsLoggedIn] = useState(false);//처음에 무조건 로그아웃으로 시작, 로드하는 시간때문에
   const [init, setInit] = useState(false); //초기화 안된 set
   const [userObj, setUserObj] = useState(null);
@@ -104,7 +105,7 @@ function App() {
     </div>
   </nav>
     <Button>Default Button</Button>;
-  {init ? <AppRouter isLoggedIns={isLoggedIn} userObj={userObj} /> : " Initailizing" }
+  {init ? <AppRouter isLoggedIns={isLoggedIn} userObj={userObj} albumId={albumIdConst} /> : " Initailizing" }
   <footer>&copy; spring frontend {new Date().getFullYear()}</footer>
 
   <form onSubmit={(e) => onSubmit(e)}>
