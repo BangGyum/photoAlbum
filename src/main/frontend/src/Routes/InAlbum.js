@@ -9,7 +9,7 @@ import InPhotoAlbum from "Routes/InPhotoAlbum";
 
 //앨범 목록 가져오기
 function InAlbum() {
-  const [albumListName, setAlbumListName] = useState([]);
+  const [albumList, setAlbumList] = useState([]);
   //const [albumListId, setAlbumListId] = useState([]);
   useEffect(()=>{
       async function fetchAlbums() {
@@ -18,13 +18,17 @@ function InAlbum() {
             //console.log(album);
             for(let i=0; i < album.data.length; i++){
                     //console.log(album.data[i]);
-                setAlbumListName((albumListName) => {
-                  return [...albumListName, album.data[i].albumName];
-              });
+                setAlbumList((albumList) => {
+                  return [...albumList, {
+                    id : album.data[i].albumId,
+                    name : album.data[i].albumName,
+                    },
+                  ]});
+
 //                setAlbumListId((albumListId) => {
 //                  return [...albumListId, album.data[i].albumId]; });
                 //setThumbUrl([...thumbUrl,movies.data[i].thumbUrl], () => console.log(this.thumbUrl));
-                }
+            }
         } catch (error) {
             console.error(error);
       }
@@ -39,15 +43,16 @@ function InAlbum() {
         navigate(-1);  //뒤로
     }
 
-    console.log("aaa",albumListName);
+    console.log("aaa",albumList);
 return (
 
         <>
 
         <button onClick={onClickLogOut}>Log out</button>
         <ul>
-        {albumListName.map((albumName, index) => (
-            <li><Link to="/photoAlbum" key={index}>{albumName}</Link></li>
+        {albumList.map((albumListEach, index) => (
+
+            <li><Link to="/photoAlbum/:albumId" key={index} prop={albumListEach.id}>{albumListEach.name},{albumListEach.id}</Link></li>
         ))}
         </ul>
     </>

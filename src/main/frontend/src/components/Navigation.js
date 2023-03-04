@@ -7,7 +7,7 @@ const Navigation = () => { //link를 사용해서 이동
         <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/album">InAlbum</Link></li>
-            <li><Link to="/photoAlbum:albumId">InPhotoAlbum</Link></li>
+            <li><Link to="/photoAlbum/1">InPhotoAlbum</Link></li>
         </ul>
 );
 }

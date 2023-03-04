@@ -9,6 +9,7 @@ import Navigation from "components/Navigation";
 const AppRouter = ({ isLoggedIns, userObj, albumId }) => {
     //const [isLoggedIn, setIsLoggedIn] = useState(false);
     //isLoggedIns && <Navigation />} navigation이 존재하려면, isLoggedIns가 true여야 한다.
+    console.log("Router albumId:",albumId);
     return (
     <Router>
         {<Navigation />}
