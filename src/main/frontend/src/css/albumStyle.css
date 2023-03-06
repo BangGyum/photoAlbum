@@ -1,0 +1,9 @@
+
+.albumFolder {
+  width: 80px;
+  height: 80px;
+  margin : 30px;
+  display: inline-block;
+  background-color: #c3ecf9;
+  display: flex;
+}

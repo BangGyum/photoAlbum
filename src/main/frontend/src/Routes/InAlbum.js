@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
+import AppRouter from "components/Router";
 import AppRouterInPhotoAlbum from "components/Router2";
 import { authService } from "FirebaseInstance";
 import { BrowserRouter, Route, Routes, useNavigate, Link } from "react-router-dom";
 import { ChakraBaseProvider, extendBaseTheme } from '@chakra-ui/react';
 import chakraTheme from '@chakra-ui/theme';
 import InPhotoAlbum from "Routes/InPhotoAlbum";
+import "css/albumStyle.css";
 
 //앨범 목록 가져오기
 function InAlbum() {
@@ -49,12 +51,15 @@ return (
         <>
 
         <button onClick={onClickLogOut}>Log out</button>
-        <ul>
-        {albumList.map((albumListEach, index) => (
 
-            <li><Link to="/photoAlbum/:albumId" key={index} prop={albumListEach.id}>{albumListEach.name},{albumListEach.id}</Link></li>
+
+        {albumList.map((albumListEach, index) => (
+            <Link to="/photoAlbum" key={index} albumId={albumListEach.id}>
+                <div class="albumFolder" >
+                    {albumListEach.name},{albumListEach.id}
+                </div>
+            </Link>
         ))}
-        </ul>
     </>
 
 );
