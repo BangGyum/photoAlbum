@@ -104,7 +104,7 @@ function App() {
     </div>
   </nav>
     <Button>Default Button</Button>;
-  {init ? <AppRouter isLoggedIns={isLoggedIn} userObj={userObj} albumId={albumId} /> : " Initailizing" }
+  {init ? <AppRouter isLoggedIns={isLoggedIn} userObj={userObj} albumId={2} /> : " Initailizing" }
   <footer>&copy; spring frontend {new Date().getFullYear()}</footer>
 
   <form onSubmit={(e) => onSubmit(e)}>

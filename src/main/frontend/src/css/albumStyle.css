@@ -1,9 +1,20 @@
-
-.albumFolder {
-  width: 80px;
-  height: 80px;
+.albumFolder1 {
+  width : 100%;
   margin : 30px;
+  display: block;
+
+
+}
+.albumFolder2 {
+  font-size: 10px;
+  width: 120px;
+  height: 120px;
+  margin : 15px;
   display: inline-block;
   background-color: #c3ecf9;
-  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+
 }
