@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { authService } from "FirebaseInstance"
-import { useNavigate  } from "react-router-dom";
+import { useNavigate, useParams  } from "react-router-dom";
 import "css/style.css";
 
-function InPhotoAlbum({propId}) {
-    console.log(propId);
+function InPhotoAlbum({props}) {
+    let { albumId } = useParams();
+	//const user = location.state.user;
+	console.log("useParams:",albumId);
+    console.log(props);
     const navigate = useNavigate(); //양식이 제출 or 특정 event가 발생 시, url을 조작할 수 있는 interface
     const onClickLogOut = () => {
         authService.signOut();
         navigate(-1);  //뒤로
     }
   const [images, setImages] = useState([]);
-    console.log(`/albums/${propId}/photos/getPhotos`);
+    console.log(`/albums/${1}/photos/getPhotos`);
   useEffect(() => {
-    axios.get(`/albums/${propId}/photos/getPhotos`)
+    axios.get(`/albums/${1}/photos/getPhotos`)
       .then(response => setImages(response.data) )
       .catch(error => console.error(error));
   }, []);

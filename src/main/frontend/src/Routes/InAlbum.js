@@ -49,11 +49,10 @@ function InAlbum() {
 return (
 
         <>
-
         <button onClick={onClickLogOut}>Log out</button>
         <div class="albumFolder1">
         {albumList.map((albumListEach, index) => (
-            <Link to={`/photoAlbum/:${albumListEach.id}`} key={index}>
+            <Link to={`/photoAlbum/:::${albumListEach.id}`} key={index}>
                 {console.log(albumListEach.id)};
                 <div class="albumFolder2" >
                     {albumListEach.name},{albumListEach.id}
