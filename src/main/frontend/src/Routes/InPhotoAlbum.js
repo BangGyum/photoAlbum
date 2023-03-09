@@ -5,8 +5,10 @@ import { useNavigate, useParams  } from "react-router-dom";
 import "css/style.css";
 
 function InPhotoAlbum({props}) {
-    let { albumId } = useParams();
+    //let { albumId } = useParams();
 	//const user = location.state.user;
+	const params = useParams();
+    const albumId = params.propId;
 	console.log("useParams:",albumId);
     console.log(props);
     const navigate = useNavigate(); //양식이 제출 or 특정 event가 발생 시, url을 조작할 수 있는 interface
@@ -15,9 +17,9 @@ function InPhotoAlbum({props}) {
         navigate(-1);  //뒤로
     }
   const [images, setImages] = useState([]);
-    console.log(`/albums/${1}/photos/getPhotos`);
+    console.log(`/albums/${albumId}/photos/getPhotos`);
   useEffect(() => {
-    axios.get(`/albums/${1}/photos/getPhotos`)
+    axios.get(`/albums/albumId/photos/getPhotos`)
       .then(response => setImages(response.data) )
       .catch(error => console.error(error));
   }, []);
