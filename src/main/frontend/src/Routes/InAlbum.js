@@ -17,19 +17,13 @@ function InAlbum() {
       async function fetchAlbums() {
         try {
             const album = await axios.get("/albums/albumList?sort=byName");
-            //console.log(album);
             for(let i=0; i < album.data.length; i++){
-                    //console.log(album.data[i]);
                 setAlbumList((albumList) => {
                   return [...albumList, {
                     id : album.data[i].albumId,
                     name : album.data[i].albumName,
                     },
                   ]});
-
-//                setAlbumListId((albumListId) => {
-//                  return [...albumListId, album.data[i].albumId]; });
-                //setThumbUrl([...thumbUrl,movies.data[i].thumbUrl], () => console.log(this.thumbUrl));
             }
         } catch (error) {
             console.error(error);
