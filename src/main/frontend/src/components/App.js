@@ -13,8 +13,6 @@ import { ChakraProvider } from '@chakra-ui/react';
 import Button from "css/Button";
 import "css/style.css";
 
-
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);//처음에 무조건 로그아웃으로 시작, 로드하는 시간때문에
   const [init, setInit] = useState(false); //초기화 안된 set
@@ -48,8 +46,7 @@ function App() {
       setInit(true);
       console.log(isLoggedIn);
       //console.log(authService.currentUser);
-      
-      
+
      });
   }, []);
   console.log(authService.currentUser); 
@@ -94,6 +91,38 @@ function App() {
 
 
 
+
+  return (
+
+  <>
+  <nav>
+    <div>
+        nav
+    </div>
+  </nav>
+    <Button>Default Button</Button>;
+  {init ? <AppRouter isLoggedIns={isLoggedIn} userObj={userObj} albumId={2} /> : " Initailizing" }
+  <footer>&copy; spring frontend {new Date().getFullYear()}</footer>
+
+  <form onSubmit={(e) => onSubmit(e)}>
+
+    <div className="App">
+    <input
+      type="file"
+      name="profile_files"
+      multiple="multiple"
+    />
+      <Button as="input" type="button" value="제출" type="submit" />{' '}
+    </div>
+
+  </form>
+
+
+  </>
+  );
+}
+export default App;
+//git config --global core.autocrlf true
 
   return (
 
