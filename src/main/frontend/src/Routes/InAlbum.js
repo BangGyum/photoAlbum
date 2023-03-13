@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import AppRouter from "components/Router";
-import AppRouterInPhotoAlbum from "components/Router2";
 import { authService } from "FirebaseInstance";
 import { BrowserRouter, Route, Routes, useNavigate, Link } from "react-router-dom";
 import { ChakraBaseProvider, extendBaseTheme } from '@chakra-ui/react';

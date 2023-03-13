@@ -17,7 +17,7 @@ function InPhotoAlbum({props}) {
         navigate(-1);  //뒤로
     }
   const [images, setImages] = useState([]);
-    console.log(`/albums/${albumId}/photos/getPhotos`);
+    console.log(`/albums/${albumId}/photos/getAlbumPhotos`);
   useEffect(() => {
     axios.get(`/albums/albumId/photos/getPhotos`)
       .then(response => setImages(response.data) )

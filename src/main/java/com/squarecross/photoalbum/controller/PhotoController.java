@@ -35,32 +35,19 @@ public class PhotoController {
 //
 //        return photoService.getImages();
 //    }
-        @RequestMapping(value="/getPhotos",method=RequestMethod.GET)
-        public ResponseEntity<List<byte[]>> getImages() throws IOException {
-            List<byte[]> imageBytes = photoService.getImages();
+    @RequestMapping(value="/getPhotos",method=RequestMethod.GET)
+    public ResponseEntity<List<byte[]>> getImages() throws IOException {
+        List<byte[]> imageBytes = photoService.getImages();
 
-            return new ResponseEntity<>(imageBytes,HttpStatus.OK);
-        }
-//    }
-//    @RequestMapping(value="/getPhotos",method=RequestMethod.GET)
-//    public List<ResponseEntity<byte[]>> getImages() throws IOException {
-//        List<ResponseEntity<byte[]>> images = new ArrayList<>();
-//
-//        InputStream in1 = getClass().getResourceAsStream("/path/to/image1.jpg");
-//        byte[] imageBytes1 = IOUtils.toByteArray(in1);
-//        HttpHeaders headers1 = new HttpHeaders();
-//        headers1.setContentType(MediaType.IMAGE_PNG);
-//        images.add(new ResponseEntity<>(imageBytes1, headers1, HttpStatus.OK));
-//
-//        InputStream in2 = getClass().getResourceAsStream("/path/to/image2.jpg");
-//        byte[] imageBytes2 = IOUtils.toByteArray(in2);
-//        HttpHeaders headers2 = new HttpHeaders();
-//        headers2.setContentType(MediaType.IMAGE_PNG);
-//        images.add(new ResponseEntity<>(imageBytes2, headers2, HttpStatus.OK));
-//
-//        // 이미지 목록을 반환
-//        return images;
-//    }
+        return new ResponseEntity<>(imageBytes,HttpStatus.OK);
+    }
+    @RequestMapping(value="/getAlbumPhotos",method=RequestMethod.GET)
+    public ResponseEntity<List<byte[]>> getEachAlbumImages(@PathVariable("albumId") final Long albumId) throws IOException {
+        List<byte[]> imageBytes = photoService.getEachAlbumImagesImages(albumId);
+
+        return new ResponseEntity<>(imageBytes,HttpStatus.OK);
+    }
+
 
     // 한개 이상사진 삭제 api
     @RequestMapping(value = "/delete", method = RequestMethod.PUT)

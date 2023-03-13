@@ -45,7 +45,6 @@ public class PhotoService {
 
     public List<byte[]> getImages() throws IOException {
         List<byte[]> images = new ArrayList<>();
-
         List<Photo> photoList = photoRepository.findAll();
         for (Photo photo : photoList) {
             Path imagePath = Paths.get("D:/photoalbumSpring/photoalbum"+photo.getThumbUrl());
@@ -54,7 +53,18 @@ public class PhotoService {
             headers.setContentType(MediaType.IMAGE_PNG);
             images.add(imageBytes);
         }
-
+        return images;
+    }
+    public List<byte[]> getEachAlbumImagesImages(Long albumId) throws IOException {
+        List<byte[]> images = new ArrayList<>();
+        List<Photo> photoList = photoRepository.findAll();
+        for (Photo photo : photoList) {
+            Path imagePath = Paths.get("D:/photoalbumSpring/photoalbum"+photo.getThumbUrl());
+            byte[] imageBytes = Files.readAllBytes(imagePath);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_PNG);
+            images.add(imageBytes);
+        }
         return images;
     }
 
