@@ -57,8 +57,9 @@ public class PhotoService {
     }
     public List<byte[]> getEachAlbumImagesImages(Long albumId) throws IOException {
         List<byte[]> images = new ArrayList<>();
-        List<Photo> photoList = photoRepository.findAll();
+        List<Photo> photoList = photoRepository.findByAlbum_AlbumId(albumId);
         for (Photo photo : photoList) {
+            System.out.println("dd: "+ photo.getPhotoId());
             Path imagePath = Paths.get("D:/photoalbumSpring/photoalbum"+photo.getThumbUrl());
             byte[] imageBytes = Files.readAllBytes(imagePath);
             HttpHeaders headers = new HttpHeaders();
@@ -68,21 +69,6 @@ public class PhotoService {
         return images;
     }
 
-    //이미지 리액트로 전송 service
-//    public List<ResponseEntity<byte[]>> getImages() throws IOException {
-//        List<ResponseEntity<byte[]>> images = new ArrayList<>();
-//
-//        List<Photo> photoList = photoRepository.findAll();
-//        for (Photo photo : photoList) {
-//            Path imagePath = Paths.get("D:/photoalbumSpring/photoalbum"+photo.getThumbUrl());
-//            byte[] imageBytes = Files.readAllBytes(imagePath);
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.IMAGE_PNG);
-//            images.add(new ResponseEntity<>(imageBytes, headers, HttpStatus.OK));
-//        }
-//
-//        return images;
-//    }
 
     //이미지 삭제 서비스
     public void deletePhoto(Long photoId){
