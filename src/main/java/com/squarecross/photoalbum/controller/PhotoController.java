@@ -41,7 +41,7 @@ public class PhotoController {
 
         return new ResponseEntity<>(imageBytes,HttpStatus.OK);
     }
-    @RequestMapping(value="/getAlbumPhotos",method=RequestMethod.GET)
+    @RequestMapping(value="/getEachAlbumPhotos",method=RequestMethod.GET)
     public ResponseEntity<List<byte[]>> getEachAlbumImages(@PathVariable("albumId") final Long albumId) throws IOException {
         List<byte[]> imageBytes = photoService.getEachAlbumImagesImages(albumId);
 

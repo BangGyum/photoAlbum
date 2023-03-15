@@ -19,9 +19,10 @@ function InPhotoAlbum({props}) {
   const [images, setImages] = useState([]);
     console.log(`/albums/${albumId}/photos/getAlbumPhotos`);
   useEffect(() => {
-    axios.get(`/albums/albumId/photos/getPhotos`)
+    axios.get(`/albums/${albumId}/photos/getEachAlbumPhotos`)
       .then(response => setImages(response.data) )
       .catch(error => console.error(error));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(images);
 //<Wrapper key={index}>
