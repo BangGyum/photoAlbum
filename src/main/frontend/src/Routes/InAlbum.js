@@ -48,7 +48,7 @@ return (
             <Link to={`/photoAlbum/${albumListEach.id}`} key={index}>
                 {console.log(albumListEach.id)};
                 <div class="albumFolder2" >
-                    {albumListEach.name},{albumListEach.id}
+                    name : {albumListEach.name} , id: {albumListEach.id}
                 </div>
             </Link>
         ))}
