@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import AppRouter from "components/Router";
 import { authService } from "FirebaseInstance";
-import { BrowserRouter, Route, Routes, useNavigate, Link } from "react-router-dom";
-import { ChakraBaseProvider, extendBaseTheme } from '@chakra-ui/react';
-import chakraTheme from '@chakra-ui/theme';
+import { useNavigate, Link } from "react-router-dom";
+//import { ChakraBaseProvider, extendBaseTheme } from '@chakra-ui/react';
+//import chakraTheme from '@chakra-ui/theme';
 import InPhotoAlbum from "Routes/InPhotoAlbum";
 import "css/albumStyle.css";
 

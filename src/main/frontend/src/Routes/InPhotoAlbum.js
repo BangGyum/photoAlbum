@@ -5,8 +5,6 @@ import { useNavigate, useParams  } from "react-router-dom";
 import "css/style.css";
 
 function InPhotoAlbum({props}) {
-    //let { albumId } = useParams();
-	//const user = location.state.user;
 	const params = useParams();
     const albumId = params.propId;
 	console.log("useParams:",albumId);
