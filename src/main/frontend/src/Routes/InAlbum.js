@@ -49,7 +49,12 @@ return (
                 {console.log(albumListEach.id)};
                 <div className="albumFolder2" >
                     name : {albumListEach.name} , id: {albumListEach.id}
+
                 </div>
+                <input type="checkbox" onChange={(e) => {
+                    const checked = e.target.checked;  // 체크 여부
+                    console.log(`checkbox ${index} is ${checked ? 'checked' : 'unchecked'}`);
+                }} />
             </Link>
         ))}
         </div>
