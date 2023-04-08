@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
  //앨범 목록 가져오기
  function InAlbum() {
    const [albumList, setAlbumList] = useState([]);
+   const [checkedAlbums, setCheckedAlbums] = useState([]);
    //const [albumListId, setAlbumListId] = useState([]);
    useEffect(()=>{
        async function fetchAlbums() {
@@ -38,7 +39,8 @@ import React, { useEffect, useState } from "react";
          navigate(-1);  //뒤로
      }
 
-     console.log("aaa",albumList);
+
+
  return (
 
          <>
@@ -51,10 +53,20 @@ import React, { useEffect, useState } from "react";
                      name : {albumListEach.name} , id: {albumListEach.id}
 
                  </div>
-                 <input type="checkbox" onChange={(e) => {
+                 <input
+                   type="checkbox"
+                   onChange={(e) => {
                      const checked = e.target.checked;  // 체크 여부
                      console.log(`checkbox ${index} is ${checked ? 'checked' : 'unchecked'}`);
-                 }} />
+                     if (checked) {
+                       // 체크한 앨범을 배열에 추가
+                       setCheckedAlbums((prevCheckedAlbums) => [...prevCheckedAlbums, albumListEach.id]);
+                     } else {
+                       // 체크 해제한 앨범을 배열에서 제거
+                       setCheckedAlbums((prevCheckedAlbums) => prevCheckedAlbums.filter((id) => id !== albumListEach.id));
+                     }
+                   }}
+                 />
              </Link>
          ))}
          </div>
