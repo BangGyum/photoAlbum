@@ -32,6 +32,8 @@ import React, { useEffect, useState } from "react";
      fetchAlbums();
    },[]);
 
+   console.log(albumList);
+
      const navigate = useNavigate(); //양식이 제출 or 특정 event가 발생 시, url을 조작할 수 있는 interface
      const onClickLogOut = () => {
          authService.signOut();
@@ -47,26 +49,26 @@ import React, { useEffect, useState } from "react";
          <button onClick={onClickLogOut}>Log out</button>
          <div className="albumFolder1">
          {albumList.map((albumListEach, index) => (
+            <input
+               type="checkbox"
+               onChange={(e) => {
+                 const checked = e.target.checked;  // 체크 여부
+                 console.log(`checkbox ${index} is ${checked ? 'checked' : 'unchecked'}`);
+                 if (checked) {
+                   // 체크한 앨범을 배열에 추가
+                   setCheckedAlbums((prevCheckedAlbums) => [...prevCheckedAlbums, albumListEach.id]);
+                 } else {
+                   // 체크 해제한 앨범을 배열에서 제거
+                   setCheckedAlbums((prevCheckedAlbums) => prevCheckedAlbums.filter((id) => id !== albumListEach.id));
+                 }
+               }}/>
              <Link to={`/photoAlbum/${albumListEach.id}`} key={index}>
                  {console.log(albumListEach.id)};
                  <div className="albumFolder2" >
                      name : {albumListEach.name} , id: {albumListEach.id}
 
                  </div>
-                 <input
-                   type="checkbox"
-                   onChange={(e) => {
-                     const checked = e.target.checked;  // 체크 여부
-                     console.log(`checkbox ${index} is ${checked ? 'checked' : 'unchecked'}`);
-                     if (checked) {
-                       // 체크한 앨범을 배열에 추가
-                       setCheckedAlbums((prevCheckedAlbums) => [...prevCheckedAlbums, albumListEach.id]);
-                     } else {
-                       // 체크 해제한 앨범을 배열에서 제거
-                       setCheckedAlbums((prevCheckedAlbums) => prevCheckedAlbums.filter((id) => id !== albumListEach.id));
-                     }
-                   }}
-                 />
+
              </Link>
          ))}
          </div>
