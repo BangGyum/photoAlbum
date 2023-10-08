@@ -10,6 +10,8 @@ import React, { useEffect, useState } from "react";
 
  //앨범 목록 가져오기
  function InAlbum() {
+   const [albumListInPhoto4, setAlbumListInPhoto4] = useState([{}]);
+   setAlbumListInPhoto4()
    const [albumList, setAlbumList] = useState([]);
    const [checkedAlbums, setCheckedAlbums] = useState([]);
    //const [albumListId, setAlbumListId] = useState([]);
@@ -49,22 +51,24 @@ import React, { useEffect, useState } from "react";
          <button onClick={onClickLogOut}>Log out</button>
          <div className="albumFolder1">
          {albumList.map((albumListEach, index) => (
-            <input
-               type="checkbox"
-               onChange={(e) => {
-                 const checked = e.target.checked;  // 체크 여부
-                 console.log(`checkbox ${index} is ${checked ? 'checked' : 'unchecked'}`);
-                 if (checked) {
-                   // 체크한 앨범을 배열에 추가
-                   setCheckedAlbums((prevCheckedAlbums) => [...prevCheckedAlbums, albumListEach.id]);
-                 } else {
-                   // 체크 해제한 앨범을 배열에서 제거
-                   setCheckedAlbums((prevCheckedAlbums) => prevCheckedAlbums.filter((id) => id !== albumListEach.id));
-                 }
-               }}/>
+
              <Link to={`/photoAlbum/${albumListEach.id}`} key={index}>
-                 {console.log(albumListEach.id)};
+                 {console.log('map안의 id:' + albumListEach.id)};
                  <div className="albumFolder2" >
+                    <input
+                       type="checkbox"
+                       onChange={(e) => {
+                         const checked = e.target.checked;  // 체크 여부
+                         console.log(`checkbox ${index} is ${checked ? 'checked' : 'unchecked'}`);
+                         if (checked) {
+                           // 체크한 앨범을 배열에 추가
+                           setCheckedAlbums((prevCheckedAlbums) => [...prevCheckedAlbums, albumListEach.id]);
+                         } else {
+                           // 체크 해제한 앨범을 배열에서 제거
+                           setCheckedAlbums((prevCheckedAlbums) => prevCheckedAlbums.filter((id) => id !== albumListEach.id));
+                         }
+                       }}
+                   />
                      name : {albumListEach.name} , id: {albumListEach.id}
 
                  </div>
