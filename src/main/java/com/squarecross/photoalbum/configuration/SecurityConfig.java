@@ -26,6 +26,5 @@ public class SecurityConfig {
                 .and()
                 //.addFilterBefore()
                 .build();
-
     }
 }
