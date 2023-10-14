@@ -1,4 +1,4 @@
-package utils;
+package com.squarecross.photoalbum.utils;
 import io.jsonwebtoken.*;
 
 import java.util.Date;
