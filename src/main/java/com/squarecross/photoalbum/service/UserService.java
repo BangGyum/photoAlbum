@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    @Value("$[jwt.secret}")
+    @Value("${jwt.secret}")
     private String secretKey;
 
-    private Long expiredMs = 1000 * 60 * 60l;
+    private Long expiredMs = 1000 * 60l * 60l;
     public String login(String userName, String password) {
         //일단 jwt만 구현
         //인증 과정 생략
