@@ -18,6 +18,7 @@ dependencies {
 	implementation 'org.apache.tika:tika:2.7.0'
 	implementation 'org.apache.tika:tika-xmp:2.7.0'
 	implementation 'javax.xml.bind:jaxb-api:2.3.0'
+	implementation 'org.projectlombok:lombok:1.18.22'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 // https://mvnrepository.com/artifact/org.apache.tika/tika-parsers
 	implementation group: 'org.apache.tika', name: 'tika-parsers', version: '2.7.0', ext: 'pom'
@@ -40,6 +41,7 @@ dependencies {
 
 	//사진크기 줄이기
 	implementation 'org.imgscalr:imgscalr-lib:4.2'
+
 }
 
 tasks.named('test') {
