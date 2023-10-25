@@ -12,6 +12,19 @@ public class JwtUtil {
      * @param userName  : 사용자 이름
      * @return String : 토큰
      */
+
+    //expired 확인
+    public static boolean isExpired(String token, String secretKey){
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getExpiration()
+                .before(new Date());
+
+    }
+
     //static이니깐 userService 만들어서 거기서 리턴해주자.
     public static String createJwt(String userName, String secretKey, Long expiredMs){ //secretKey는 토큰에 서명하는데 사용, userName은
                                                             // controller에서 check 할때 토큰의 유저네임을 꺼내서 표시

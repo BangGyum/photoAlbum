@@ -1,6 +1,7 @@
 package com.squarecross.photoalbum.configuration;
 
 import com.squarecross.photoalbum.service.UserService;
+import com.squarecross.photoalbum.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.parser.Authorization;
@@ -35,8 +36,18 @@ public class JwtFilter extends OncePerRequestFilter { //요청매번 토큰이 �
         log.info("authorization:{}",authorization);
 
         //권한 부여하기 전에 return , 그래도 필터체인이 가야함
-        if(authorization == null){
-            log.error("authorization 이 없습니다.");
+        if(authorization == null || !authorization.startsWith("Bearer ")){
+            log.error("authorization 이 없거나 잘못 보냈습니다.");
+            filterChain.doFilter(request,response);
+            return;
+        }
+
+        //Token 꺼내기
+        String token = authorization.split(" ")[1];
+
+        //Token Expired 여부
+        if(JwtUtil.isExpired(token,secretKey)){
+            log.error("token이 만료 됐습니다.");
             filterChain.doFilter(request,response);
             return;
         }
