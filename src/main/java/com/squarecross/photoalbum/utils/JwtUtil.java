@@ -14,6 +14,13 @@ public class JwtUtil {
      * @return String : 토큰
      */
 
+    //userName 가져오기
+    public static String getUserName(String token, String secretKey){
+
+        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(secretKey)
+                .getBody().get("userName",String.class); //toString도 됨
+    }
+
     //expired 확인
     public static boolean isExpired(String token, String secretKey){
         log.info("token:{}",token);
