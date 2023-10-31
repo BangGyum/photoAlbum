@@ -17,18 +17,19 @@ public class JwtUtil {
     //userName 가져오기
     public static String getUserName(String token, String secretKey){
 
-        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(secretKey)
+        return Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token)
                 .getBody().get("userName",String.class); //toString도 됨
     }
 
     //expired 확인
     public static boolean isExpired(String token, String secretKey){
         log.info("token:{}",token);
-        return Jwts.parserBuilder()
+        Jws<Claims> claims = Jwts.parserBuilder()
                 .setSigningKey(secretKey.getBytes())
                 .build()
-                .parseClaimsJws(token)
-                .getBody()
+                .parseClaimsJws(token);
+
+        return claims.getBody()
                 .getExpiration()
                 .before(new Date());
 

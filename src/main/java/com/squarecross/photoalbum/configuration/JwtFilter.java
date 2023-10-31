@@ -45,6 +45,10 @@ public class JwtFilter extends OncePerRequestFilter { //요청매번 토큰이 �
         //Token 꺼내기
         String token = authorization.split(" ")[1];
 
+        //username을 token에서 꺼내기
+        String userName = JwtUtil.getUserName(token,secretKey);
+        log.info("userName: {}", userName);
+
         //Token Expired 여부
         if(JwtUtil.isExpired(token,secretKey)){
             log.error("token이 만료 됐습니다.");
@@ -52,9 +56,7 @@ public class JwtFilter extends OncePerRequestFilter { //요청매번 토큰이 �
             return;
         }
 
-        //username을 token에서 꺼내기
-        String userName = JwtUtil.getUserName(token,secretKey);
-        log.info("userName: {}", userName);
+
 
         //권한부여, db에 roll을 저장해뒀으면 저기다가 박아넣을 수 있음, 지금은 하드코딩
         UsernamePasswordAuthenticationToken authenticationToken =
