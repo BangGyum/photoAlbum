@@ -16,14 +16,16 @@ public class JwtUtil {
 
     //userName 가져오기
     public static String getUserName(String token, String secretKey){
-
+        log.info("getUserName//token:{}",token);
+        log.info("getUserName//secretKey :{}",secretKey);
         return Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token)
                 .getBody().get("userName",String.class); //toString도 됨
     }
 
     //expired 확인
     public static boolean isExpired(String token, String secretKey){
-        log.info("token:{}",token);
+        log.info("isExpired//token:{}",token);
+        log.info("isExpired//secretKey :{}",secretKey);
         Jws<Claims> claims = Jwts.parserBuilder()
                 .setSigningKey(secretKey.getBytes())
                 .build()
