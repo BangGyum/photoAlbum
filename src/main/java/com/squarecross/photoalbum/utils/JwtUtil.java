@@ -45,9 +45,10 @@ public class JwtUtil {
         Claims claims = Jwts.claims();
         claims.put("userName", userName);
         return Jwts.builder()
+                .setHeaderParam("type","jwt")
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiredMs))        //언제까지
+                .setExpiration(new Date(System.currentTimeMillis()+1*(1000*60*60*24*365)))  // + expiredMs))        //언제까지
                 .signWith(SignatureAlgorithm.HS256,secretKey) //해당 알고리즘으로 사인되었다.
                 .compact();         //jw
 
