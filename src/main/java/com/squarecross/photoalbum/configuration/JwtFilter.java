@@ -44,6 +44,7 @@ public class JwtFilter extends OncePerRequestFilter { //요청매번 토큰이 �
 
         //Token 꺼내기
         String token = authorization.split(" ")[1];
+        log.info("token꺼내기의 token: {}", token);
 
         //username을 token에서 꺼내기
         String userName = JwtUtil.getUserName(token,secretKey);

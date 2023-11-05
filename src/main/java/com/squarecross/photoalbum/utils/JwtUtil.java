@@ -18,7 +18,17 @@ public class JwtUtil {
     public static String getUserName(String token, String secretKey){
         log.info("getUserName//token:{}",token);
         log.info("getUserName//secretKey :{}",secretKey);
-        return Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token)
+        Jws<Claims> claims = Jwts.parserBuilder()
+                .setSigningKey(secretKey.getBytes())
+                .build()
+                .parseClaimsJws(token); //여기가 문제다. 무슨 문제지?
+                                //JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+                                //로컬과 다르다..
+                                //근데 로컬 토큰은 yml에서 같은것을 불러오니깐 일단 yml 문제는 아니다.
+
+                                //값은 보통 eyJhbGciOiJIUzI1NiJ9.e30.99O810IDbBIemVzxUX4wV3KEi74a2D9IwEbUfYEAae4
+                                //위와 같은 식이다.
+        return claims
                 .getBody().get("userName",String.class); //toString도 됨
     }
 
@@ -48,7 +58,7 @@ public class JwtUtil {
                 .setHeaderParam("type","jwt")
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+1*(1000*60*60*24*365)))  // + expiredMs))        //언제까지
+                .setExpiration(new Date(System.currentTimeMillis()  + expiredMs))        //언제까지
                 .signWith(SignatureAlgorithm.HS256,secretKey) //해당 알고리즘으로 사인되었다.
                 .compact();         //jw
 
