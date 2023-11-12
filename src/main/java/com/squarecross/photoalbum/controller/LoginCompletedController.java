@@ -1,5 +1,6 @@
 package com.squarecross.photoalbum.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,8 +11,9 @@ import java.net.Authenticator;
 
 @RestController
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class LoginCompletedController {
-    @PostMapping("check")
+    @PostMapping("/check")
     public ResponseEntity<String> loginCheck(Authentication authentication) {
 
         return ResponseEntity.ok().body(authentication.getName() + "님의 당신은 로그인 된 사람이군요.");

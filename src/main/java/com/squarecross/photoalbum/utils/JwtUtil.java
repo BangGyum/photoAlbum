@@ -1,10 +1,12 @@
 package com.squarecross.photoalbum.utils;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 
 @Slf4j
+@RequiredArgsConstructor
 public class JwtUtil {
     //토큰은 header.payload.signature (헤더.내용.서명) 으로 구성돼 있고, cliams는 내용 안에 있다.
     /**

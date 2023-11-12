@@ -59,7 +59,7 @@ public class JwtFilter extends OncePerRequestFilter { //요청매번 토큰이 �
 
 
 
-        //권한부여, db에 roll을 저장해뒀으면 저기다가 박아넣을 수 있음, 지금은 하드코딩
+        //권한부여, db에 role을 저장해뒀으면 저기다가 박아넣을 수 있음, 지금은 하드코딩
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userName, null, List.of(new SimpleGrantedAuthority("USER")));
 
